@@ -24,9 +24,9 @@ Este projeto é um sistema de gerenciamento de bar desenvolvido para facilitar a
 ## **Pré-requisitos**
 Certifique-se de ter as seguintes ferramentas instaladas em seu ambiente de desenvolvimento:
 
-- Node.js (v12 ou superior)
-- Python (v3.8 ou superior)
-- MySQL (v5.7 ou superior)
+- Node.js 
+- Python 
+- MySQL 
 
 ## **Instalação**
 
