@@ -5,7 +5,7 @@ import Avatar from "@mui/material/Avatar";
 function Sidebar() {
   return (
     <>
-      <div className="bg-yellow-400 h-screen max-w-64 p-5 flex flex-col gap-3">
+      <div className="bg-yellow-400 h-screen w-64 max-w-64 p-5 flex flex-col gap-3">
         <a href="" className="flex justify-between">
           <div>
             <h3 className="text-zinc-500">Bem Vindo!</h3>
@@ -15,12 +15,12 @@ function Sidebar() {
         </a>
         <div className="w-full h-0.5 bg-white rounded-full" />
         <List>
-          <ListItemSidebar />
-          <ListItemSidebar />
-          <ListItemSidebar />
+          <ListItemSidebar txt="Estoque" to="/stock" />
+          <ListItemSidebar txt="Gastos/Ganhos" />
+          <ListItemSidebar txt="Pedidos" to="/orders" />
           <div className="w-full h-0.5 bg-white rounded-full" />
-          <ListItemSidebar />
-          <ListItemSidebar />
+          <ListItemSidebar txt="Relatório" />
+          <ListItemSidebar txt="Graficos" to="/" />
         </List>
       </div>
     </>

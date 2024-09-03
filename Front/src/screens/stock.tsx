@@ -1,5 +1,5 @@
 import TextField from "@mui/material/TextField";
-import TableStock from "../components/table";
+import { TableDemo } from "../components/table";
 import Logo from "../components/logo";
 
 function Stock() {
@@ -12,7 +12,7 @@ function Stock() {
             <TextField id="standard-basic" label="Produto" variant="standard" />
             <h1>Estoque</h1>
           </div>
-          <TableStock />
+          <TableDemo />
         </div>
       </div>
     </div>
