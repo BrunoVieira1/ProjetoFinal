@@ -5,7 +5,7 @@ import { Button } from "../ui/button";
 function ListItemSidebar(props: any) {
   return (
     <a href={props.to} className="flex-1 flex-col flex">
-      <Button variant="ghost" className="justify-between">
+      <Button variant="ghost" className="justify-between h-14">
         <InboxIcon />
         {props.txt}
       </Button>

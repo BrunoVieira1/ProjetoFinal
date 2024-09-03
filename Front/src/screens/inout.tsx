@@ -1,18 +1,16 @@
 import Logo from "@/components/logo";
-import TableOrders from "@/components/tableOrders";
+import Tab from "@/components/tabs";
 import React from "react";
 
-function Orders() {
+function Inout() {
   return (
     <div className="flex justify-center items-center w-full flex-col gap-4">
       <Logo />
       <div className="flex-1">
-        <div>
-          <TableOrders />
-        </div>
+        <Tab />
       </div>
     </div>
   );
 }
 
-export default Orders;
+export default Inout;

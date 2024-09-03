@@ -1,15 +1,8 @@
-import Logo from "@/components/logo";
-import { TableDemo } from "@/components/table";
-import { TextField } from "@mui/material";
-import React from "react";
+import TextField from "@mui/material/TextField";
+import { TableDemo } from "../components/table";
+import Logo from "../components/logo";
 
-interface Stock {
-  id: number;
-  idProduct: number;
-  minStock: number;
-  maxStock: number;
-}
-function Stock() {
+function Products() {
   return (
     <div className="flex justify-center items-center w-full flex-col gap-4">
       <Logo />
@@ -17,7 +10,7 @@ function Stock() {
         <div className="flex-1">
           <div className="flex justify-between">
             <TextField id="standard-basic" label="Produto" variant="standard" />
-            <h1>Estoque</h1>
+            <h1>Produtos</h1>
           </div>
           <TableDemo />
         </div>
@@ -26,4 +19,4 @@ function Stock() {
   );
 }
 
-export default Stock;
+export default Products;

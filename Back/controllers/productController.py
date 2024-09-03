@@ -2,6 +2,7 @@ from flask import request
 from database.db import db
 from models.product import Product
 
+
 def product_controller():
     if request.method == 'POST':
         try:
@@ -15,7 +16,9 @@ def product_controller():
             return {'error': f'Product não criado: {e}'}, 400
     elif request.method == 'GET':
         try:
+            
             data = Product.query.all()
+            
             return [p.to_dict() for p in data], 200
         except Exception as e:
             return {'error': f'Erro ao buscar Products: {e}'}, 400
