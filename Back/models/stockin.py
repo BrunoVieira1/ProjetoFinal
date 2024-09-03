@@ -10,7 +10,7 @@ class StockIn(db.Model):
     idProduct = Column(Integer, unique=True, nullable=False)
     qtt = Column(Integer, nullable=False)
     date = Column(Date, nullable=False)
-    idRequester = Column(Integer, unique=True, nullable=False)
+    idRequester = Column(ForeignKey('user.id'))
     
     def __init__(self, idProduct, qtt, date, idRequester):
         self.idProduct = idProduct

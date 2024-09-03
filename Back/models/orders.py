@@ -10,7 +10,7 @@ class Orders(db.Model):
     qtt = Column(Integer, nullable=False)
     total = Column(Float(8, 2), nullable=False)
     date = Column(Date, nullable=False)
-    idRequester = Column(Integer, unique=True, nullable=False)
+    idRequester = Column(ForeignKey('user.id'))
     
     def __init__(self, idProduct, qtt, total, date, idRequester):
         self.idProduct = idProduct

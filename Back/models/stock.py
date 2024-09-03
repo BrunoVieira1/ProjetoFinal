@@ -10,7 +10,7 @@ class Stock(db.Model):
     minStock = Column(Integer, nullable=False)
     maxStock = Column(Integer, nullable=False)
     qtt = Column(Integer, nullable=False)
-    idRequester = Column(Integer, unique=True, nullable=False)
+    idRequester = Column(ForeignKey('user.id'))
     
     def __init__(self, idProduct, minStock, maxStock, qtt, idRequester):
         self.idProduct = idProduct

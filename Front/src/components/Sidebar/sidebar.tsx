@@ -15,12 +15,12 @@ function Sidebar() {
         </a>
         <div className="w-full h-0.5 bg-white rounded-full" />
         <List>
-          <ListItemSidebar txt1="Estoque" txt2="" to="/stock" />
-          <ListItemSidebar txt1="Gastos/Ganhos" txt2="" />
-          <ListItemSidebar txt1="Pedidos" txt2="" to="/orders" />
+          <ListItemSidebar />
+          <ListItemSidebar />
+          <ListItemSidebar />
           <div className="w-full h-0.5 bg-white rounded-full" />
-          <ListItemSidebar txt1="Relatório" txt2="" />
-          <ListItemSidebar txt1="Graficos" txt2="" to="/" />
+          <ListItemSidebar />
+          <ListItemSidebar />
         </List>
       </div>
     </>

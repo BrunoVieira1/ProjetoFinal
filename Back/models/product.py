@@ -11,7 +11,7 @@ class Product(db.Model):
     idBrand = Column(Integer, nullable=False)
     type = Column(String(100), nullable=False)
     price = Column(Float(8, 2), nullable=False)
-    idRequester = Column(Integer, unique=True, nullable=False)
+    idRequester = Column(ForeignKey('user.id'))
     
     def __init__(self, name, idBrand, type, price, idRequester):
         self.name = name
