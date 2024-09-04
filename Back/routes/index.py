@@ -8,6 +8,7 @@ from routes.stockoutRoutes import stockout_routes
 from routes.userRoutes import user_routes
 from routes.brandRoutes import brand_routes
 from routes.positionRoutes import position_routes
+from routes.authRoutes import auth_routes
 
 def default_routes(app):
   debtor_routes(app)
@@ -20,3 +21,4 @@ def default_routes(app):
   user_routes(app)
   brand_routes(app)
   position_routes(app)
+  auth_routes(app)

@@ -1,11 +1,19 @@
 import RoutesApp from "../routes";
 import Sidebar from "../components/Sidebar/sidebar";
+import Login from "@/screens/login";
 
 function App() {
+  var IdLogin = localStorage.getItem("IdLogin");
   return (
     <div className="flex">
-      <Sidebar />
-      <RoutesApp />
+      {IdLogin == "1" ? (
+        <>
+          <Sidebar />
+          <RoutesApp />
+        </>
+      ) : (
+        <Login />
+      )}
     </div>
   );
 }

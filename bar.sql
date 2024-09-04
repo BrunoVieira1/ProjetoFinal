@@ -1,23 +1,23 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.5.1
+-- version 3.4.9
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: 03-Set-2024 às 17:09
--- Versão do servidor: 5.7.11
--- PHP Version: 5.6.19
+-- Servidor: 127.0.0.1
+-- Tempo de Geração: 04/09/2024 às 22h13min
+-- Versão do Servidor: 5.5.20
+-- Versão do PHP: 5.3.9
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
--- Database: `bar`
+-- Banco de Dados: `bar`
 --
 
 -- --------------------------------------------------------
@@ -26,18 +26,21 @@ SET time_zone = "+00:00";
 -- Estrutura da tabela `brand`
 --
 
-CREATE TABLE `brand` (
-  `id` int(5) NOT NULL,
+CREATE TABLE IF NOT EXISTS `brand` (
+  `id` int(5) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
-  `idRequester` int(5) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `idRequester` int(5) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idRequester` (`idRequester`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Extraindo dados da tabela `brand`
 --
 
 INSERT INTO `brand` (`id`, `name`, `idRequester`) VALUES
-(1, 'xd', 1);
+(1, 'xd', 1),
+(3, 'Brahma', 1);
 
 -- --------------------------------------------------------
 
@@ -45,12 +48,14 @@ INSERT INTO `brand` (`id`, `name`, `idRequester`) VALUES
 -- Estrutura da tabela `debtor`
 --
 
-CREATE TABLE `debtor` (
+CREATE TABLE IF NOT EXISTS `debtor` (
   `id` int(11) NOT NULL,
   `name` int(11) NOT NULL,
   `price` float(8,2) NOT NULL,
   `date` date NOT NULL,
-  `idRequester` int(5) NOT NULL
+  `idRequester` int(5) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idRequester` (`idRequester`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -59,13 +64,15 @@ CREATE TABLE `debtor` (
 -- Estrutura da tabela `expenses`
 --
 
-CREATE TABLE `expenses` (
-  `id` int(5) NOT NULL,
+CREATE TABLE IF NOT EXISTS `expenses` (
+  `id` int(5) NOT NULL AUTO_INCREMENT,
   `reason` varchar(100) NOT NULL,
   `price` float(8,2) NOT NULL,
   `date` date NOT NULL,
-  `idRequester` int(5) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `idRequester` int(5) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idRequester` (`idRequester`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -73,14 +80,17 @@ CREATE TABLE `expenses` (
 -- Estrutura da tabela `orders`
 --
 
-CREATE TABLE `orders` (
-  `id` int(5) NOT NULL,
+CREATE TABLE IF NOT EXISTS `orders` (
+  `id` int(5) NOT NULL AUTO_INCREMENT,
   `idProduct` int(5) NOT NULL,
   `qtt` int(4) NOT NULL,
   `total` float(8,2) NOT NULL,
   `date` date NOT NULL,
-  `idRequester` int(5) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `idRequester` int(5) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idProduct` (`idProduct`),
+  UNIQUE KEY `idRequester` (`idRequester`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -88,10 +98,11 @@ CREATE TABLE `orders` (
 -- Estrutura da tabela `position`
 --
 
-CREATE TABLE `position` (
-  `id` int(5) NOT NULL,
-  `name` varchar(100) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+CREATE TABLE IF NOT EXISTS `position` (
+  `id` int(5) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Extraindo dados da tabela `position`
@@ -107,14 +118,23 @@ INSERT INTO `position` (`id`, `name`) VALUES
 -- Estrutura da tabela `product`
 --
 
-CREATE TABLE `product` (
-  `id` int(5) NOT NULL,
+CREATE TABLE IF NOT EXISTS `product` (
+  `id` int(5) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `idBrand` int(5) NOT NULL,
   `type` varchar(100) NOT NULL,
   `price` float(8,2) NOT NULL,
-  `idRequester` int(5) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `idRequester` int(5) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idRequester` (`idRequester`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Extraindo dados da tabela `product`
+--
+
+INSERT INTO `product` (`id`, `name`, `idBrand`, `type`, `price`, `idRequester`) VALUES
+(1, 'Brahma Lata 269Ml', 3, 'Cerveja Lata', 2.79, 1);
 
 -- --------------------------------------------------------
 
@@ -122,14 +142,24 @@ CREATE TABLE `product` (
 -- Estrutura da tabela `stock`
 --
 
-CREATE TABLE `stock` (
-  `id` int(5) NOT NULL,
+CREATE TABLE IF NOT EXISTS `stock` (
+  `id` int(5) NOT NULL AUTO_INCREMENT,
   `idProduct` int(5) NOT NULL,
   `minStock` int(4) NOT NULL,
   `maxStock` int(4) NOT NULL,
   `qtt` int(4) NOT NULL,
-  `idRequester` int(5) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `idRequester` int(5) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idProduct` (`idProduct`),
+  UNIQUE KEY `idRequester` (`idRequester`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Extraindo dados da tabela `stock`
+--
+
+INSERT INTO `stock` (`id`, `idProduct`, `minStock`, `maxStock`, `qtt`, `idRequester`) VALUES
+(1, 1, 10, 1000, 100, 1);
 
 -- --------------------------------------------------------
 
@@ -137,13 +167,16 @@ CREATE TABLE `stock` (
 -- Estrutura da tabela `stockin`
 --
 
-CREATE TABLE `stockin` (
-  `id` int(5) NOT NULL,
+CREATE TABLE IF NOT EXISTS `stockin` (
+  `id` int(5) NOT NULL AUTO_INCREMENT,
   `idProduct` int(5) NOT NULL,
   `qtt` int(4) NOT NULL,
   `date` date NOT NULL,
-  `idRequester` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `idRequester` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idProduct` (`idProduct`),
+  UNIQUE KEY `idRequester` (`idRequester`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -151,13 +184,16 @@ CREATE TABLE `stockin` (
 -- Estrutura da tabela `stockout`
 --
 
-CREATE TABLE `stockout` (
-  `id` int(5) NOT NULL,
+CREATE TABLE IF NOT EXISTS `stockout` (
+  `id` int(5) NOT NULL AUTO_INCREMENT,
   `idProduct` int(5) NOT NULL,
   `qtt` int(4) NOT NULL,
   `date` date NOT NULL,
-  `idRequester` int(5) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `idRequester` int(5) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idProduct` (`idProduct`),
+  UNIQUE KEY `idRequester` (`idRequester`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -165,14 +201,17 @@ CREATE TABLE `stockout` (
 -- Estrutura da tabela `user`
 --
 
-CREATE TABLE `user` (
-  `id` int(5) NOT NULL,
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` int(5) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `login` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `idPosition` int(5) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `idPosition` int(5) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`),
+  KEY `idPosition` (`idPosition`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Extraindo dados da tabela `user`
@@ -182,132 +221,27 @@ INSERT INTO `user` (`id`, `name`, `login`, `password`, `email`, `idPosition`) VA
 (1, 'as', 'ass', 'ass', 'ass', 1);
 
 --
--- Indexes for dumped tables
+-- Restrições para as tabelas dumpadas
 --
 
 --
--- Indexes for table `brand`
+-- Restrições para a tabela `brand`
 --
 ALTER TABLE `brand`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `idRequester` (`idRequester`);
+  ADD CONSTRAINT `brand_ibfk_1` FOREIGN KEY (`idRequester`) REFERENCES `user` (`id`);
 
 --
--- Indexes for table `debtor`
+-- Restrições para a tabela `debtor`
 --
 ALTER TABLE `debtor`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `idRequester` (`idRequester`);
+  ADD CONSTRAINT `debtor_ibfk_1` FOREIGN KEY (`idRequester`) REFERENCES `user` (`id`);
 
 --
--- Indexes for table `expenses`
---
-ALTER TABLE `expenses`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `idRequester` (`idRequester`);
-
---
--- Indexes for table `orders`
---
-ALTER TABLE `orders`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `idProduct` (`idProduct`),
-  ADD UNIQUE KEY `idRequester` (`idRequester`);
-
---
--- Indexes for table `position`
---
-ALTER TABLE `position`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `product`
+-- Restrições para a tabela `product`
 --
 ALTER TABLE `product`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `idRequester` (`idRequester`);
+  ADD CONSTRAINT `product_ibfk_1` FOREIGN KEY (`idRequester`) REFERENCES `user` (`id`);
 
---
--- Indexes for table `stock`
---
-ALTER TABLE `stock`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `idProduct` (`idProduct`),
-  ADD UNIQUE KEY `idRequester` (`idRequester`);
-
---
--- Indexes for table `stockin`
---
-ALTER TABLE `stockin`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `idProduct` (`idProduct`),
-  ADD UNIQUE KEY `idRequester` (`idRequester`);
-
---
--- Indexes for table `stockout`
---
-ALTER TABLE `stockout`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `idProduct` (`idProduct`),
-  ADD UNIQUE KEY `idRequester` (`idRequester`);
-
---
--- Indexes for table `user`
---
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`),
-  ADD KEY `idPosition` (`idPosition`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `brand`
---
-ALTER TABLE `brand`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `expenses`
---
-ALTER TABLE `expenses`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `orders`
---
-ALTER TABLE `orders`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `position`
---
-ALTER TABLE `position`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT for table `product`
---
-ALTER TABLE `product`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `stock`
---
-ALTER TABLE `stock`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `stockin`
---
-ALTER TABLE `stockin`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `stockout`
---
-ALTER TABLE `stockout`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `user`
---
-ALTER TABLE `user`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
