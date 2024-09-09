@@ -21,6 +21,8 @@ def user_controller():
 
     elif request.method == 'GET':
         try:
+            data = request.get_json()
+            print(data)
             users = User.query.all()
             return [user.to_dict() for user in users], 200
         except Exception as e:

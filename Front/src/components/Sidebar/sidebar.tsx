@@ -17,8 +17,30 @@ import {
 } from "@/components/ui/dialog";
 
 import { Button } from "@/components/ui/button";
+import { Api } from "@/api";
+import { useEffect, useState } from "react";
 
+interface User {
+  id: number;
+  name: string;
+}
 function Sidebar() {
+  /*
+  const UserId = localStorage.getItem("IdLogin");
+  async function getUser() {
+    try {
+      setTimeout(async () => {
+        const data = await Api.get("/user", {id: UserId});
+        setUser(data.data);
+      }, 1000);
+    } catch (e) {
+      console.error("erro", e);
+    }
+  }
+  useEffect(() => {
+    getUser();
+  }, []); 
+  const [user, setUser] = useState<User[]>([]); */
   return (
     <>
       <div className="bg-yellow-400 h-screen w-64 max-w-64 p-5 flex flex-col gap-3">

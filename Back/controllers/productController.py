@@ -1,6 +1,7 @@
 from flask import request
 from database.db import db
 from models.product import Product
+from models.brand import Brand
 
 
 def product_controller():
@@ -17,9 +18,20 @@ def product_controller():
     elif request.method == 'GET':
         try:
             
-            data = Product.query.all()
+            data = db.session.query(Product, Brand).join(Brand, Brand.id == Product.idBrand).all()
+            print(data)
+            dados = [
+                {
+                    'id' : product.id,
+                    'name': product.name,
+                    'brand' : brand.name,
+                    'price': product.price
+                }
+                for product,brand in data
+            ]
+            print(dados)
             
-            return [p.to_dict() for p in data], 200
+            return dados, 200
         except Exception as e:
             return {'error': f'Erro ao buscar Products: {e}'}, 400
     elif request.method == 'PUT':
