@@ -4,9 +4,7 @@ import React from "react";
 export async function handleCheckLogin(login: string, password: string) {
   var response = await auth(login, password);
   console.log("Response do handlelogin", response);
-  return response === 1
-    ? ((window.location.href = "/"), localStorage.setItem("IdLogin", "1"))
-    : (window.location.href = "/");
+  return response === 1 ? localStorage.setItem("IdLogin", "1") : localStorage;
 }
 
 const auth = async (login: string, password: string) => {
@@ -23,6 +21,7 @@ const auth = async (login: string, password: string) => {
       console.log("nenhum usuario encontrado");
       return 0;
     } else {
+      localStorage.setItem("IdLogin", "1");
       return 1;
     }
   } catch (error) {
