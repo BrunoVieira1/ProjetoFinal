@@ -21,10 +21,17 @@ interface Product {
   idRequester: number;
 }
 
-function ProductModal() {
+function ProductPutModal(
+  id: number,
+  name: string,
+  idBrand: number,
+  type: string,
+  price: number
+) {
   async function handleCreate() {
     try {
-      Api.post("/product", {
+      Api.put("/product", {
+        id: id,
         name: product.name,
         idBrand: product.idBrand,
         type: product.type,
@@ -38,10 +45,10 @@ function ProductModal() {
     }
   }
   const [product, setProduct] = useState<Product>({
-    name: "",
-    idBrand: 3,
-    type: "",
-    price: 0,
+    name: name,
+    idBrand: idBrand,
+    type: type,
+    price: price,
     idRequester: 1,
   });
   return (
@@ -73,7 +80,7 @@ function ProductModal() {
               id="price"
               value={product.price}
               onChange={(e) =>
-                setProduct({ ...product, price: e.target.value })
+                setProduct({ ...product, price: +e.target.value })
               }
               type="number"
               className="col-span-3"
@@ -99,7 +106,7 @@ function ProductModal() {
               location="brand"
               value={product.idBrand}
               onChange={(e) =>
-                setProduct({ ...product, idBrand: e.target.value })
+                setProduct({ ...product, idBrand: +e.target.value })
               }
             />
           </div>
@@ -114,4 +121,4 @@ function ProductModal() {
   );
 }
 
-export default ProductModal;
+export default ProductPutModal;

@@ -1,5 +1,5 @@
 import Logo from "@/components/logo";
-import TableOrders from "@/components/tableOrders";
+import TableOrders from "@/components/Tables/tableOrders";
 import React from "react";
 
 function Orders() {

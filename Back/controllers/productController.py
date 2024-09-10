@@ -18,18 +18,19 @@ def product_controller():
     elif request.method == 'GET':
         try:
             
+           
             data = db.session.query(Product, Brand).join(Brand, Brand.id == Product.idBrand).all()
-            print(data)
             dados = [
                 {
                     'id' : product.id,
                     'name': product.name,
+                    'idBrand': product.idBrand,
                     'brand' : brand.name,
-                    'price': product.price
+                    'type' : product.type,
+                    'price': round(product.price, 2)
                 }
                 for product,brand in data
             ]
-            print(dados)
             
             return dados, 200
         except Exception as e:

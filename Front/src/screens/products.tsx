@@ -1,5 +1,5 @@
 import TextField from "@mui/material/TextField";
-import { TableDemo } from "../components/table";
+import { TableDemo } from "../components/Tables/tableProduct";
 import Logo from "../components/logo";
 import ProductModal from "@/modals/productModal";
 
@@ -9,10 +9,8 @@ function Products() {
       <Logo />
       <div className="flex-1 w-full p-6">
         <div className="flex-1">
-          <div className="flex justify-between">
-            <TextField id="standard-basic" label="Produto" variant="standard" />
-            <ProductModal />
-          </div>
+          <div className="flex justify-between"></div>
+          <ProductModal />
           <TableDemo />
         </div>
       </div>

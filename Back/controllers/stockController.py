@@ -1,6 +1,7 @@
 from flask import request
 from database.db import db
 from models.stock import Stock
+from models.product import Product
 
 def stock_controller():
     if request.method == 'POST':
@@ -15,8 +16,19 @@ def stock_controller():
             return {'error': f'Stock não criado: {e}'}, 400
     elif request.method == 'GET':
         try:
-            data = Stock.query.all()
-            return [s.to_dict() for s in data], 200
+            data = db.session.query(Stock, Product).join(Product, Product.id == Stock.idProduct)
+            dados = [
+                {
+                    'id' : stock.id,
+                    'name' : product.name,
+                    'minStock' : stock.minStock,
+                    'maxStock' : stock.maxStock,
+                    'qtt' : stock.qtt,
+                }
+                for stock, product in data
+            ]
+
+            return dados, 200
         except Exception as e:
             return {'error': f'Erro ao buscar Stocks: {e}'}, 400
     elif request.method == 'PUT':

@@ -1,5 +1,5 @@
 import Logo from "@/components/logo";
-import { TableDemo } from "@/components/table";
+import { TableDemo } from "@/components/Tables/tableStock";
 import { TextField } from "@mui/material";
 import React from "react";
 

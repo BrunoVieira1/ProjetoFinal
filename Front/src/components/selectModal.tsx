@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { SelectHTMLAttributes, useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -15,12 +15,16 @@ interface Brand {
   name: string;
 }
 
-function SelectModal(props: any) {
+interface SelectModalProps extends SelectHTMLAttributes<HTMLSelectElement> {
+  location: string;
+}
+
+function SelectModal({ location, ...rest }: SelectModalProps) {
   async function getBrands() {
     try {
       setTimeout(async () => {
-        console.log(`/${props.location}`);
-        const data = await Api.get(`/${props.location}`);
+        console.log(`/${location}`);
+        const data = await Api.get(`/${location}`);
         console.log(data);
         setBrands(data.data);
       }, 1000);
@@ -33,14 +37,18 @@ function SelectModal(props: any) {
   }, []);
   const [brands, setBrands] = useState<Brand[]>([]);
   return (
-    <Select>
+    <Select {...rest}>
       <SelectTrigger className="w-[280px]">
         <SelectValue placeholder="Selecione a Marca" />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
           {brands.map((brand) => {
-            return <SelectItem value={brand.id}>{brand.name}</SelectItem>;
+            return (
+              <SelectItem key={brand.id} value={brand.id}>
+                {brand.name}
+              </SelectItem>
+            );
           })}
         </SelectGroup>
       </SelectContent>

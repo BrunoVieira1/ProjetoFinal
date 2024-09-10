@@ -5,8 +5,8 @@ def auth_controller():
   if request.method == 'POST':
     try:
       data = request.get_json()
-      print(data)
-      data = User.query.filter_by(login=data['login'], password=data['password'])
+      print(data["data"])
+      data = User.query.filter_by(login=data["data"]['login'], password=data["data"]['password'])
       data = {'users' : user.to_dict() for user in data}
       print(data)
       if data['users'] != []:
