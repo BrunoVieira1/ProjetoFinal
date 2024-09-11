@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -21,29 +21,21 @@ interface Product {
   idRequester: number;
 }
 
-function ProductPutModal(
-  id: number,
-  name: string,
-  idBrand: number,
-  type: string,
-  price: number
-) {
-  async function handleCreate() {
-    try {
-      Api.put("/product", {
-        id: id,
-        name: product.name,
-        idBrand: product.idBrand,
-        type: product.type,
-        price: product.price,
-        idRequester: product.idRequester,
-      });
-      alert("cadastrado");
-      console.log(product);
-    } catch (e) {
-      console.error("erro", e);
-    }
-  }
+interface ProductPutModalProps {
+  id: number;
+  name: string;
+  idBrand: number;
+  type: string;
+  price: number;
+}
+
+const ProductPutModal: React.FC<ProductPutModalProps> = ({
+  id,
+  name,
+  idBrand,
+  type,
+  price,
+}) => {
   const [product, setProduct] = useState<Product>({
     name: name,
     idBrand: idBrand,
@@ -51,14 +43,32 @@ function ProductPutModal(
     price: price,
     idRequester: 1,
   });
+
+  async function handleCreate() {
+    try {
+      await Api.put("/product", {
+        id: id,
+        name: product.name,
+        idBrand: product.idBrand,
+        type: product.type,
+        price: product.price,
+        idRequester: product.idRequester,
+      });
+      alert("Produto atualizado");
+      console.log(product);
+    } catch (e) {
+      console.error("Erro ao atualizar produto", e);
+    }
+  }
+
   return (
     <Dialog>
       <DialogTrigger className="hover:underline">
-        Adicionar Produto
+        <Button>Editar</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Adicionar Produto</DialogTitle>
+          <DialogTitle>Editar Produto</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
@@ -88,7 +98,7 @@ function ProductPutModal(
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="type" className="text-right">
-              tipo
+              Tipo
             </Label>
             <Input
               id="type"
@@ -113,12 +123,12 @@ function ProductPutModal(
         </div>
         <DialogFooter>
           <Button type="submit" onClick={handleCreate}>
-            Save changes
+            Salvar alterações
           </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
   );
-}
+};
 
 export default ProductPutModal;

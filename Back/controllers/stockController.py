@@ -16,7 +16,8 @@ def stock_controller():
             return {'error': f'Stock não criado: {e}'}, 400
     elif request.method == 'GET':
         try:
-            data = db.session.query(Stock, Product).join(Product, Product.id == Stock.idProduct)
+            data = db.session.query(Stock, Product).join(Product, Product.id == Stock.idProduct).all()
+            print(data)
             dados = [
                 {
                     'id' : stock.id,
@@ -27,7 +28,7 @@ def stock_controller():
                 }
                 for stock, product in data
             ]
-
+            print(dados)
             return dados, 200
         except Exception as e:
             return {'error': f'Erro ao buscar Stocks: {e}'}, 400

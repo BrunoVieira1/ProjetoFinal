@@ -20,7 +20,11 @@ interface Product {
   idBrand: number;
   price: number;
 }
+
 export function TableDemo() {
+  const [search, setSearch] = useState("");
+  const [product, setProduct] = useState<Product[]>([]);
+
   async function getProduct() {
     try {
       setTimeout(async () => {
@@ -47,11 +51,10 @@ export function TableDemo() {
     });
   }
 
-  const [search, setSearch] = useState("");
-  const [product, setProduct] = useState<Product[]>([]);
   useEffect(() => {
     getProduct();
   }, [product]);
+
   return (
     <>
       <TextField
@@ -90,19 +93,13 @@ export function TableDemo() {
                 </Button>
               </TableCell>
               <TableCell className="text-right">
-                <Button
-                  onClick={() =>
-                    ProductPutModal(
-                      product.id,
-                      product.name,
-                      product.idBrand,
-                      product.type,
-                      product.price
-                    )
-                  }
-                >
-                  Editar
-                </Button>
+                <ProductPutModal
+                  id={product.id}
+                  name={product.name}
+                  idBrand={product.idBrand}
+                  type={product.type}
+                  price={product.price}
+                />
               </TableCell>
             </TableRow>
           ))}

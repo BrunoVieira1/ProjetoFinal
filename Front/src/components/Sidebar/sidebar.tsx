@@ -67,8 +67,15 @@ function Sidebar() {
                       Você sera mandado para a tela de login.
                     </DialogDescription>
                   </DialogHeader>
-                  <Button variant="destructive">
-                    <a href="/login">Sair</a>
+
+                  <Button
+                    variant="destructive"
+                    onClick={() => (
+                      localStorage.setItem("IdLogin", "0"),
+                      window.location.reload()
+                    )}
+                  >
+                    Sair
                   </Button>
                 </DialogContent>
               </Dialog>
