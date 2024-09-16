@@ -8,6 +8,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useEffect, useState } from "react";
+import { Button } from "../ui/button";
+import StockPutModal from "@/modals/stockPutModal";
 
 interface Stock {
   id: number;
@@ -29,10 +31,17 @@ export function TableDemo() {
       console.error("erro", e);
     }
   }
+  function deleteStock(id: number) {
+    Api.delete("/stock", {
+      data: {
+        id: id,
+      },
+    });
+  }
+  const [stock, setStock] = useState<Stock[]>([]);
   useEffect(() => {
     getStock();
-  }, []);
-  const [stock, setStock] = useState<Stock[]>([]);
+  }, [stock]);
   return (
     <Table className="overflow-scroll bg-scroll">
       <TableHeader>
@@ -52,6 +61,23 @@ export function TableDemo() {
             <TableCell>{stock.minStock}</TableCell>
             <TableCell>{stock.maxStock}</TableCell>
             <TableCell className="text-right">{stock.qtt}</TableCell>
+            <TableCell className="text-right">
+              <Button
+                variant={"destructive"}
+                onClick={() => deleteStock(stock.id)}
+              >
+                Excluir
+              </Button>
+            </TableCell>
+            <TableCell className="text-right">
+              <StockPutModal
+                id={stock.id}
+                idProduct={stock.idProduct}
+                minStock={stock.minStock}
+                maxStock={stock.maxStock}
+                qtt={stock.qtt}
+              />
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>

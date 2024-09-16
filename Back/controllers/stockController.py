@@ -17,7 +17,6 @@ def stock_controller():
     elif request.method == 'GET':
         try:
             data = db.session.query(Stock, Product).join(Product, Product.id == Stock.idProduct).all()
-            print(data)
             dados = [
                 {
                     'id' : stock.id,
@@ -28,13 +27,14 @@ def stock_controller():
                 }
                 for stock, product in data
             ]
-            print(dados)
+
             return dados, 200
         except Exception as e:
             return {'error': f'Erro ao buscar Stocks: {e}'}, 400
     elif request.method == 'PUT':
         try:
             data = request.get_json()
+            print(data)
             stock_id = data['id']
             stock = Stock.query.get(stock_id)
             if stock is None:

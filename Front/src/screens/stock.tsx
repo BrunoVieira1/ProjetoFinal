@@ -1,5 +1,6 @@
 import Logo from "@/components/logo";
 import { TableDemo } from "@/components/Tables/tableStock";
+import StockModal from "@/modals/stockModal";
 import { TextField } from "@mui/material";
 import React from "react";
 
@@ -17,7 +18,7 @@ function Stock() {
         <div className="flex-1">
           <div className="flex justify-between">
             <TextField id="standard-basic" label="Produto" variant="standard" />
-            <h1>Estoque</h1>
+            <StockModal />
           </div>
           <TableDemo />
         </div>

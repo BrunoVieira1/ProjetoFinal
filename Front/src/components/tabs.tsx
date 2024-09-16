@@ -1,20 +1,33 @@
-import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+import TableStockinout from "./Tables/tableStockInOut";
 
 function Tab() {
   return (
     <Tabs
       defaultValue="account"
-      className="w-[400px] flex justify-center flex-col"
+      className="flex-1 w-full flex justify-center flex-col"
     >
       <TabsList className="justify-between">
-        <TabsTrigger value="ganhos">Ganhos</TabsTrigger>
-        <TabsTrigger value="gastos">Gastos</TabsTrigger>
+        <TabsTrigger
+          value="ganhos"
+          className="flex-1 data-[state=active]:bg-green-500"
+        >
+          Vendas
+        </TabsTrigger>
+        <TabsTrigger
+          value="gastos"
+          className="flex-1 data-[state=active]:bg-red-500"
+        >
+          Compras
+        </TabsTrigger>
       </TabsList>
       <TabsContent value="ganhos">
-        Make changes to your account here.
+        <TableStockinout location="stockin" />
       </TabsContent>
-      <TabsContent value="gastos">Change your password here.</TabsContent>
+      <TabsContent value="gastos">
+        <TableStockinout location="stockout" />
+      </TabsContent>
     </Tabs>
   );
 }

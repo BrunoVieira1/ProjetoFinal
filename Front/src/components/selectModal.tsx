@@ -1,10 +1,9 @@
-import React, { SelectHTMLAttributes, useEffect, useState } from "react";
+import { SelectHTMLAttributes, useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -17,17 +16,16 @@ interface Brand {
 
 interface SelectModalProps extends SelectHTMLAttributes<HTMLSelectElement> {
   location: string;
+  onValueChange: (value: string) => void;
 }
 
-function SelectModal({ location, ...rest }: SelectModalProps) {
+function SelectModal({ location, onValueChange, ...rest }: SelectModalProps) {
   async function getBrands() {
     try {
-      setTimeout(async () => {
-        console.log(`/${location}`);
-        const data = await Api.get(`/${location}`);
-        console.log(data);
-        setBrands(data.data);
-      }, 1000);
+      console.log(`/${location}`);
+      const data = await Api.get(`/${location}`);
+      console.log(data);
+      setBrands(data.data);
     } catch (e) {
       console.error("erro", e);
     }
@@ -37,7 +35,7 @@ function SelectModal({ location, ...rest }: SelectModalProps) {
   }, []);
   const [brands, setBrands] = useState<Brand[]>([]);
   return (
-    <Select {...rest}>
+    <Select onValueChange={onValueChange} {...rest}>
       <SelectTrigger className="w-[280px]">
         <SelectValue placeholder="Selecione a Marca" />
       </SelectTrigger>

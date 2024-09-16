@@ -13,70 +13,72 @@ import { Button } from "@/components/ui/button";
 import SelectModal from "@/components/selectModal";
 import { Api } from "@/api";
 
-interface Product {
+interface Stock {
+  idProduct: number;
+  minStock: number;
+  maxStock: number;
+  qtt: number;
   name: string;
-  idBrand: number;
-  type: string;
-  price: number;
-  idRequester: number;
 }
 
-function ProductModal() {
+function StockModal() {
   async function handleCreate() {
     try {
-      Api.post("/product", {
-        name: product.name,
-        idBrand: product.idBrand,
-        type: product.type,
-        price: product.price,
-        idRequester: product.idRequester,
+      Api.post("/stock", {
+        idProduct: stock.idProduct,
+        minStock: stock.minStock,
+        maxStock: stock.maxStock,
+        qtt: stock.qtt,
+        idRequester: 1,
       });
       alert("cadastrado");
-      console.log(product);
+      console.log(stock);
     } catch (e) {
       console.error("erro", e);
     }
   }
-  const [product, setProduct] = useState<Product>({
+  const [stock, setStock] = useState<Stock>({
+    idProduct: 2,
+    minStock: 0,
+    maxStock: 0,
+    qtt: 0,
     name: "",
-    idBrand: 3,
-    type: "",
-    price: 0,
-    idRequester: 1,
   });
   const handleBrandChange = (value: string) => {
-    setProduct({ ...product, idBrand: +value });
+    setStock({ ...stock, idProduct: +value });
   };
   return (
     <Dialog>
       <DialogTrigger className="hover:underline">
-        Adicionar Produto
+        Adicionar Estoque
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Adicionar Produto</DialogTitle>
+          <DialogTitle>Adicionar Estoque</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="name" className="text-right">
-              Nome
+              Estoque Minimo
             </Label>
             <Input
               id="name"
-              value={product.name}
-              onChange={(e) => setProduct({ ...product, name: e.target.value })}
+              value={stock.minStock}
+              onChange={(e) =>
+                setStock({ ...stock, minStock: +e.target.value })
+              }
               className="col-span-3"
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="price" className="text-right">
-              Preço
+              Estoque Maximo
             </Label>
             <Input
               id="price"
-              value={product.price}
+              value={stock.maxStock}
               onChange={(e) =>
-                setProduct({ ...product, price: +e.target.value })
+                setStock({ ...stock, maxStock: +e.target.value })
               }
               type="number"
               className="col-span-3"
@@ -84,23 +86,23 @@ function ProductModal() {
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="type" className="text-right">
-              tipo
+              Quantidade
             </Label>
             <Input
               id="type"
-              value={product.type}
-              onChange={(e) => setProduct({ ...product, type: e.target.value })}
+              value={stock.qtt}
+              onChange={(e) => setStock({ ...stock, qtt: +e.target.value })}
               className="col-span-3"
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="brand" className="text-right">
-              Marca
+            <Label htmlFor="product" className="text-right">
+              Nome Produto
             </Label>
             <SelectModal
-              id="brand"
-              location="brand"
-              value={product.idBrand}
+              id="product"
+              location="product"
+              value={stock.idProduct}
               onValueChange={handleBrandChange}
             />
           </div>
@@ -115,4 +117,4 @@ function ProductModal() {
   );
 }
 
-export default ProductModal;
+export default StockModal;
