@@ -1,6 +1,7 @@
 from flask import request
 from database.db import db
 from models.stockin import StockIn
+from models.stock import Stock
 
 def stockin_controller():
     if request.method == 'POST':
@@ -8,7 +9,18 @@ def stockin_controller():
             data = request.get_json()
             print(data)
             stockin = StockIn(data['idProduct'], data['qtt'], data['date'], data['idRequester'])
+            stock = Stock.query.filter_by(idProduct=data['idProduct'])
+            stockData = {'stock' : [stock.to_dict() for stock in stock]}
+            data2 = [stock['qtt'] for stock in stockData['stock']]
+            data2 = data2[0]
+            
+            idstock = int(stockData['stock'][0]['id'])
+
             db.session.add(stockin)
+            db.session.commit()
+            quantity = data2 + data['qtt']
+            put1 = Stock.query.get(idstock)
+            put1.qtt = quantity
             db.session.commit()
             return 'StockIn Criado', 201
         except Exception as e:
