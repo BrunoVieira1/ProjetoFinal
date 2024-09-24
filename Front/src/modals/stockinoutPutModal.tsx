@@ -24,6 +24,7 @@ interface StockInOutPutModalProps {
   idProduct: number;
   qtt: number;
   date: string;
+  location: string;
 }
 
 const StockInOutPutModal: React.FC<StockInOutPutModalProps> = ({
@@ -31,6 +32,7 @@ const StockInOutPutModal: React.FC<StockInOutPutModalProps> = ({
   idProduct,
   qtt,
   date,
+  location,
 }) => {
   const [stockInOut, setStockInOut] = useState<StockInOut>({
     idProduct: idProduct,
@@ -40,7 +42,7 @@ const StockInOutPutModal: React.FC<StockInOutPutModalProps> = ({
 
   async function handleUpdate() {
     try {
-      await Api.put("/stockinout", {
+      await Api.put(`/${location}`, {
         id: id,
         idProduct: stockInOut.idProduct,
         qtt: stockInOut.qtt,

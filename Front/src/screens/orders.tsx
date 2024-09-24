@@ -1,5 +1,6 @@
 import Logo from "@/components/logo";
-import TableOrders from "@/components/Tables/tableOrders";
+import { TableDemo } from "@/components/Tables/tableOrders";
+import DebtorModal from "@/modals/debtorModal";
 import React from "react";
 
 function Orders() {
@@ -8,7 +9,8 @@ function Orders() {
       <Logo />
       <div className="flex-1">
         <div>
-          <TableOrders />
+          <DebtorModal />
+          <TableDemo />
         </div>
       </div>
     </div>

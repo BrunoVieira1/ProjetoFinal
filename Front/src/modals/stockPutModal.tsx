@@ -57,6 +57,9 @@ const StockPutModal: React.FC<StockPutModalProps> = ({
       console.error("erro", e);
     }
   }
+  const handleProductChange = (value: string) => {
+    setStock({ ...stock, idProduct: +value });
+  };
   return (
     <Dialog>
       <DialogTrigger className="hover:underline">
@@ -113,9 +116,7 @@ const StockPutModal: React.FC<StockPutModalProps> = ({
               id="product"
               location="product"
               value={stock.idProduct}
-              onChange={(e) =>
-                setStock({ ...stock, idProduct: +e.target.value })
-              }
+              onValueChange={handleProductChange}
             />
           </div>
         </div>

@@ -32,6 +32,7 @@ function TableStockinout({ location }: props) {
       setTimeout(async () => {
         const data = await Api.get(`/${location}`);
         setStockinout(data.data);
+        console.log(data.data);
       });
     } catch (e) {
       console.error(e);
@@ -48,9 +49,9 @@ function TableStockinout({ location }: props) {
     });
   }
   return (
-    <>
+    <div className="overflow-y-scroll max-h-[350px]">
       <StockInOutModal location={location} />
-      <Table className="overflow-scroll bg-scroll">
+      <Table className="overflow-y-scroll h-2">
         <TableHeader>
           <TableRow>
             <TableHead className="w-[100px]">ID</TableHead>
@@ -67,7 +68,7 @@ function TableStockinout({ location }: props) {
               <TableCell className="font-medium">{product.id}</TableCell>
               <TableCell>{product.name}</TableCell>
               <TableCell>{product.qtt}</TableCell>
-              <TableCell className="text-right">R${product.date}</TableCell>
+              <TableCell className="text-right">{product.date}</TableCell>
               <TableCell className="text-right">
                 <Button
                   variant={"destructive"}
@@ -82,13 +83,14 @@ function TableStockinout({ location }: props) {
                   idProduct={product.idProduct}
                   qtt={product.qtt}
                   date={product.date}
+                  location={location}
                 />
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-    </>
+    </div>
   );
 }
 

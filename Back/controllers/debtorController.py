@@ -16,7 +16,16 @@ def debtor_controller():
     elif request.method == 'GET':
         try:
             data = Debtor.query.all()
-            return [d.to_dict() for d in data], 200
+            dados = [
+                {
+                    'id' : debtor.id,
+                    'name' : debtor.name,
+                    'price' : round(debtor.price, 2),
+                    'date' : debtor.date.strftime('%d/%m/%Y')
+                }
+                for debtor in data
+            ]
+            return dados, 200
         except Exception as e:
             return {'error': f'Erro ao buscar Debtors: {e}'}, 400
     elif request.method == 'PUT':

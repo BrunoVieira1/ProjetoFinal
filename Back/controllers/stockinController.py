@@ -2,6 +2,7 @@ from flask import request
 from database.db import db
 from models.stockin import StockIn
 from models.stock import Stock
+from models.product import Product
 
 def stockin_controller():
     if request.method == 'POST':
@@ -9,6 +10,7 @@ def stockin_controller():
             data = request.get_json()
             print(data)
             stockin = StockIn(data['idProduct'], data['qtt'], data['date'], data['idRequester'])
+
             stock = Stock.query.filter_by(idProduct=data['idProduct'])
             stockData = {'stock' : [stock.to_dict() for stock in stock]}
             data2 = [stock['qtt'] for stock in stockData['stock']]
@@ -27,8 +29,18 @@ def stockin_controller():
             return {'error': f'StockIn não criado: {e}'}, 400
     elif request.method == 'GET':
         try:
-            data = StockIn.query.all()
-            return [si.to_dict() for si in data], 200
+            data = db.session.query(StockIn, Product).join(Product, Product.id == StockIn.idProduct).all()
+            dados = [
+                {
+                    'id' : stockin.id,
+                    'idProduct' : stockin.idProduct,
+                    'qtt' : stockin.qtt,
+                    'date' : stockin.date.strftime('%d/%m/%Y'),
+                    'name' : product.name,
+                }
+                for stockin, product in data
+            ]
+            return dados, 200
         except Exception as e:
             return {'error': f'Erro ao buscar StockIns: {e}'}, 400
     elif request.method == 'PUT':
