@@ -25,29 +25,37 @@ interface User {
   name: string;
 }
 function Sidebar() {
-  /*
   const UserId = localStorage.getItem("IdLogin");
+
   async function getUser() {
     try {
-      setTimeout(async () => {
-        const data = await Api.get("/user", {id: UserId});
-        setUser(data.data);
-      }, 1000);
+      if (!UserId) {
+        throw new Error("UserId não encontrado no localStorage");
+      }
+
+      const response = await Api.get("/user/auth", {
+        params: { id: UserId },
+      });
+
+      setUser(response.data[0]);
+      console.log(user);
     } catch (e) {
-      console.error("erro", e);
+      console.error("Erro ao buscar usuário:", e);
     }
   }
+
   useEffect(() => {
     getUser();
-  }, []); 
-  const [user, setUser] = useState<User[]>([]); */
+  }, []);
+  const [user, setUser] = useState<User[]>([]);
   return (
     <>
-      <div className="bg-yellow-400 h-screen w-64 max-w-64 p-5 flex flex-col gap-3">
+      <div className="bg-yellow-400 min-h-screen w-64 max-w-64 p-5 flex flex-col gap-3">
         <Accordion type="single" collapsible>
           <AccordionItem value="item-1">
             <AccordionTrigger>
-              <Avatar>B</Avatar>Bruno
+              <Avatar>{user.name}</Avatar>
+              {user.name}
             </AccordionTrigger>
 
             <AccordionContent className="flex flex-col gap-2">

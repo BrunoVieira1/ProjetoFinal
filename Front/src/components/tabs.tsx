@@ -23,10 +23,10 @@ function Tab() {
         </TabsTrigger>
       </TabsList>
       <TabsContent value="ganhos">
-        <TableStockinout location="stockin" />
+        <TableStockinout location="stockout" />
       </TabsContent>
       <TabsContent value="gastos">
-        <TableStockinout location="stockout" />
+        <TableStockinout location="stockin" />
       </TabsContent>
     </Tabs>
   );

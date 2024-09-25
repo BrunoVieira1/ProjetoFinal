@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Graphs from "./screens/graphs";
+import Graphs from "./screens/graphs/graphs";
 import Products from "./screens/products";
 import Login from "./screens/login";
 import Orders from "./screens/orders";

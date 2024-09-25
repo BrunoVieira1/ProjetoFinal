@@ -6,7 +6,7 @@ function App() {
   var IdLogin = localStorage.getItem("IdLogin");
   return (
     <div className="flex">
-      {IdLogin == "1" ? (
+      {IdLogin != "0" ? (
         <>
           <Sidebar />
           <RoutesApp />

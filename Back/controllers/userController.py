@@ -22,8 +22,9 @@ def user_controller():
     elif request.method == 'GET':
         try:
             data = request.get_json()
-            print(data)
-            users = User.query.all()
+            id = request.args.get('id')
+            print(id)
+            users = User.query.filter_by(id = 1).all()
             return [user.to_dict() for user in users], 200
         except Exception as e:
             return {'error': f'Erro ao buscar Users: {e}'}, 400

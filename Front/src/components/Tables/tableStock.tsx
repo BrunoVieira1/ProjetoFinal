@@ -41,7 +41,7 @@ export function TableDemo() {
   const [stock, setStock] = useState<Stock[]>([]);
   useEffect(() => {
     getStock();
-  }, [stock]);
+  }, []);
   return (
     <Table className="overflow-scroll bg-scroll">
       <TableHeader>

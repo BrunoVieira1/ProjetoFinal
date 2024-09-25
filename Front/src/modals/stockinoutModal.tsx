@@ -52,7 +52,7 @@ function StockInOutModal({ location }: props) {
   return (
     <Dialog>
       <DialogTrigger className="hover:underline">
-        {location == "stockin" ? "Adicionar Venda" : "Adicionar Gasto"}
+        {location != "stockin" ? "Adicionar Venda" : "Adicionar Gasto"}
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
