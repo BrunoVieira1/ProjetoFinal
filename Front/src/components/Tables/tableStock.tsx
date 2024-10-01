@@ -22,11 +22,9 @@ interface Stock {
 export function TableDemo() {
   async function getStock() {
     try {
-      setTimeout(async () => {
-        const data = await Api.get("/stock");
-        console.log(data);
-        setStock(data.data);
-      }, 1000);
+      const data = await Api.get("/stock");
+      console.log(data);
+      setStock(data.data);
     } catch (e) {
       console.error("erro", e);
     }

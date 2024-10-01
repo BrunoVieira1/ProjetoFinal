@@ -27,17 +27,12 @@ export function TableDemo() {
 
   async function getProduct() {
     try {
-      setTimeout(async () => {
-        const data = await Api.get(
-          search.length <= 0 ? "/product" : "/product",
-          {
-            params: {
-              param1: search,
-            },
-          }
-        );
-        setProduct(data.data);
-      }, 1000);
+      const data = await Api.get(search.length <= 0 ? "/product" : "/product", {
+        params: {
+          param1: search,
+        },
+      });
+      setProduct(data.data);
     } catch (e) {
       console.error("erro", e);
     }
@@ -53,7 +48,7 @@ export function TableDemo() {
 
   useEffect(() => {
     getProduct();
-  }, [product]);
+  }, []);
 
   return (
     <>

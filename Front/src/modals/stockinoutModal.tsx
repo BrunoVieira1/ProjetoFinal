@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -16,7 +16,6 @@ import { Api } from "@/api";
 interface StockInOut {
   idProduct: number;
   qtt: number;
-  date: string;
 }
 interface props {
   location: string;
@@ -28,7 +27,7 @@ function StockInOutModal({ location }: props) {
       await Api.post(`/${location}`, {
         idProduct: stockInOut.idProduct,
         qtt: stockInOut.qtt,
-        date: stockInOut.date,
+        date: dataAtual,
         idRequester: 1,
       });
       alert("Cadastrado com sucesso");
@@ -42,12 +41,20 @@ function StockInOutModal({ location }: props) {
   const [stockInOut, setStockInOut] = useState<StockInOut>({
     idProduct: 2,
     qtt: 0,
-    date: "",
   });
 
   const handleBrandChange = (value: string) => {
     setStockInOut({ ...stockInOut, idProduct: +value });
   };
+  const [dataAtual, setDataAtual] = useState("");
+
+  useEffect(() => {
+    const data = new Date();
+    const ano = data.getFullYear();
+    const mes = String(data.getMonth() + 1).padStart(2, "0"); // getMonth() retorna de 0 a 11, então somamos 1
+    const dia = String(data.getDate()).padStart(2, "0"); // padStart para garantir dois dígitos
+    setDataAtual(`${ano}-${mes}-${dia}`);
+  }, []);
 
   return (
     <Dialog>
@@ -57,7 +64,7 @@ function StockInOutModal({ location }: props) {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            {location == "stockin" ? "Adicionar Venda" : "Adicionar Gasto"}
+            {location != "stockin" ? "Adicionar Venda" : "Adicionar Gasto"}
           </DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
@@ -75,20 +82,7 @@ function StockInOutModal({ location }: props) {
               className="col-span-3"
             />
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="date" className="text-right">
-              Data
-            </Label>
-            <Input
-              id="date"
-              value={stockInOut.date}
-              onChange={(e) =>
-                setStockInOut({ ...stockInOut, date: e.target.value })
-              }
-              type="date"
-              className="col-span-3"
-            />
-          </div>
+
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="product" className="text-right">
               Nome Produto

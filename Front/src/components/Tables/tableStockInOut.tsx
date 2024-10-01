@@ -31,6 +31,7 @@ function TableStockinout({ location }: props) {
     try {
       setTimeout(async () => {
         const data = await Api.get(`/${location}`);
+        data.data.sort((a: any, b: any) => a.id - b.id);
         setStockinout(data.data);
         console.log(data.data);
       });
@@ -49,7 +50,7 @@ function TableStockinout({ location }: props) {
     });
   }
   return (
-    <div className="overflow-y-scroll max-h-[350px]">
+    <div className="overflow-y-scroll max-h-[320px]">
       <StockInOutModal location={location} />
       <Table className="overflow-y-scroll h-2">
         <TableHeader>

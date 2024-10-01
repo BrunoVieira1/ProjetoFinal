@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/table";
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
+import DebtorPutModal from "@/modals/debtorPutModal";
 
 interface Debtor {
   id: number;
@@ -20,11 +21,9 @@ interface Debtor {
 export function TableDemo() {
   async function getDebtors() {
     try {
-      setTimeout(async () => {
-        const data = await Api.get("/debtor");
-        console.log(data.data);
-        setDebtors(data.data);
-      }, 1000);
+      const data = await Api.get("/debtor");
+      console.log(data.data);
+      setDebtors(data.data);
     } catch (e) {
       console.error("erro", e);
     }
@@ -68,7 +67,14 @@ export function TableDemo() {
                 Excluir
               </Button>
             </TableCell>
-            <TableCell className="text-right"></TableCell>
+            <TableCell className="text-right">
+              <DebtorPutModal
+                id={debtor.id}
+                date={debtor.date}
+                price={debtor.price}
+                name={debtor.name}
+              />
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>

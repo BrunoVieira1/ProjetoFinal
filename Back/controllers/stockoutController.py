@@ -3,6 +3,7 @@ from database.db import db
 from models.stockout import StockOut
 from models.stock import Stock
 from models.product import Product
+from datetime import datetime
 
 def stockout_controller():
     if request.method == 'POST':
@@ -16,7 +17,7 @@ def stockout_controller():
             data2 = [stock['qtt'] for stock in stockData['stock']]
             data2 = data2[0]
             if data2 < data['qtt']:
-                return 'error'
+                return 'errorr'
             idstock = int(stockData['stock'][0]['id'])
             db.session.add(stockout)
             db.session.commit()
@@ -31,6 +32,7 @@ def stockout_controller():
         try:
             data = StockOut.query.all()
             data = db.session.query(StockOut, Product).join(Product, Product.id == StockOut.idProduct).all()
+            
             dados = [
                 {
                     'id' : StockOut.id,
