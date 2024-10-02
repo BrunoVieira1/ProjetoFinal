@@ -15,6 +15,6 @@ class App:
 
   def run(self):
     return self.app.run(port=3000, host='localhost', debug=True)
-
+  
 app = App()
 app.run()

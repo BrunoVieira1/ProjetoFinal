@@ -5,6 +5,7 @@ import Login from "./screens/login";
 import Orders from "./screens/orders";
 import Inout from "./screens/inout";
 import Stock from "./screens/stock";
+import Report from "./screens/report";
 
 const RoutesApp = () => {
   return (
@@ -16,6 +17,7 @@ const RoutesApp = () => {
         <Route path="/stock" element={<Stock />} />
         <Route path="/debtors" element={<Orders />} />
         <Route path="/inout" element={<Inout />} />
+        <Route path="/report" element={<Report />} />
       </Routes>
     </BrowserRouter>
   );

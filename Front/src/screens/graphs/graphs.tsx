@@ -33,8 +33,8 @@ function Graphs() {
     <div className="flex justify-center items-center w-full flex-col gap-4">
       <Logo />
       <div className="flex">
-        <Graph />
-        <Graph />
+        <Graph location="stockin" />
+        <Graph location="stockout" />
       </div>
       <div className="flex gap-2">
         <div className="border border-black rounded">
