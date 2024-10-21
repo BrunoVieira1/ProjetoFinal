@@ -98,7 +98,7 @@ function Sidebar() {
           <ListItemSidebar txt="Gastos/Ganhos" to="/inout" />
           <ListItemSidebar txt="Fiados" to="/debtors" />
           <div className="w-full h-0.5 bg-white rounded-full" />
-          <ListItemSidebar txt="Relatório" />
+          <ListItemSidebar txt="Relatório" to="/report" />
           <ListItemSidebar txt="Graficos" to="/" />
         </List>
       </div>
