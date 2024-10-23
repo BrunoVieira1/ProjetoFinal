@@ -30,8 +30,10 @@ def datasession(stock, cnv, vendas):
                 }
                 for stock, product in queryStockOut
             ]
+    datastock = [stock for stock in data2 if datetime.strptime(stock['date'], '%Y-%m-%d') >= trinta_dias_atras]
+    datastock = sorted(datastock, key=lambda x: x['date'])
 
-    numeros = [obj["idProduct"] for obj in data2]
+    numeros = [obj["idProduct"] for obj in datastock]
 
     contador = Counter(numeros)
     print(contador)
@@ -42,7 +44,7 @@ def datasession(stock, cnv, vendas):
     xd = 0
     xd2 = 0
     for numero, quantidade in numeros_iguais.items():
-        for i in data2:
+        for i in datastock:
             if i['idProduct'] == numero:
                 xd += round(float(i['qtt'] * i['price']), 2)
                 xd3 = i['name']
@@ -61,7 +63,16 @@ def datasession(stock, cnv, vendas):
     print(seila)
     print(seila2)
     print(junto)
+    lucro = ""
+    for i in junto:
+        if i[1] > xd:
+            lucro = i[0]
+            xd = i[1]
+    print(xd, lucro)
 
+    cnv.drawString(row, 50, f"Maior {vendas}")
+    cnv.drawString(row, 30, lucro)
+    cnv.drawString(row + 90, 30, f"R$: {xd}")
     datastock = [stock for stock in data2 if datetime.strptime(stock['date'], '%Y-%m-%d') >= trinta_dias_atras]
     datastock = sorted(datastock, key=lambda x: x['date'])
     cnv.drawString(row, column, f"{vendas}: ordem data")

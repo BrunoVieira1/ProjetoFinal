@@ -6,6 +6,7 @@ import Orders from "./screens/orders";
 import Inout from "./screens/inout";
 import Stock from "./screens/stock";
 import Report from "./screens/report";
+import Perfil from "./screens/perfil";
 
 const RoutesApp = () => {
   return (
@@ -18,6 +19,7 @@ const RoutesApp = () => {
         <Route path="/debtors" element={<Orders />} />
         <Route path="/inout" element={<Inout />} />
         <Route path="/report" element={<Report />} />
+        <Route path="/perfil" element={<Perfil />} />
       </Routes>
     </BrowserRouter>
   );

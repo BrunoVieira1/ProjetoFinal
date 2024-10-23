@@ -54,7 +54,7 @@ function Graph({ location }: props) {
         data={stockinout}
         margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
       >
-        <Line type="monotone" dataKey="qtt" stroke="#eab308" />
+        <Line type="monotone" dataKey="price" stroke="#eab308" />
         <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
         <XAxis dataKey="date" />
         <YAxis />

@@ -2,9 +2,12 @@ from models.product import Product
 from models.stockout import StockOut
 from controllers.stockoutController import stockout_controller
 from database.db import db
+from datetime import datetime, timedelta
+from sqlalchemy import asc
 
 def getGraphh():
-    data = db.session.query(StockOut, Product).join(Product, Product.id == StockOut.idProduct).all()
+    thirty_days_ago = datetime.now() - timedelta(days=30)
+    data = db.session.query(StockOut, Product).join(Product, Product.id == StockOut.idProduct).filter(StockOut.date >= thirty_days_ago).order_by(asc(StockOut.date)).all()
     dados = [
         {
             'id' : stockin.id,
@@ -12,7 +15,7 @@ def getGraphh():
             'qtt' : stockin.qtt,
             'date' : stockin.date.strftime('%d/%m/%Y'),
             'name' : product.name,
-            'price' : product.price * stockin.qtt,
+            'price' : round(product.price * stockin.qtt, 2),
         }
         for stockin, product in data
         ]
