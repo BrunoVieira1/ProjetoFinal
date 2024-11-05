@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.5.1
--- http://www.phpmyadmin.net
+-- version 4.7.0
+-- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 17-Set-2024 às 18:37
--- Versão do servidor: 5.7.11
--- PHP Version: 5.6.19
+-- Generation Time: 05-Nov-2024 às 16:30
+-- Versão do servidor: 5.7.17
+-- PHP Version: 5.6.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -146,8 +148,8 @@ CREATE TABLE `stock` (
 --
 
 INSERT INTO `stock` (`id`, `idProduct`, `minStock`, `maxStock`, `qtt`, `idRequester`) VALUES
-(1, 1, 10, 1000, 112, 1),
-(8, 2, 10, 1000, 12, 1);
+(1, 1, 10, 1000, 88, 1),
+(8, 2, 10, 1000, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -189,7 +191,44 @@ CREATE TABLE `stockout` (
 --
 
 INSERT INTO `stockout` (`id`, `idProduct`, `qtt`, `date`, `idRequester`) VALUES
-(1, 2, 12, '2024-09-10', 1);
+(1, 2, 12, '2024-09-10', 1),
+(3, 2, 1, '2024-11-04', 1),
+(4, 2, 1, '2024-11-04', 1),
+(5, 2, 1, '2024-11-04', 1),
+(6, 2, 1, '2024-11-04', 1),
+(7, 2, 1, '2024-11-04', 1),
+(8, 2, 1, '2024-11-04', 1),
+(9, 2, 1, '2024-11-04', 1),
+(10, 1, 1, '2024-11-04', 1),
+(11, 1, 1, '2024-11-04', 1),
+(12, 1, 1, '2024-11-04', 1),
+(13, 1, 1, '2024-11-04', 1),
+(14, 2, 1, '2024-11-04', 1),
+(15, 2, 1, '2024-11-04', 1),
+(16, 2, 1, '2024-11-04', 1),
+(17, 2, 1, '2024-11-04', 1),
+(18, 2, 1, '2024-11-04', 1),
+(19, 1, 1, '2024-11-04', 1),
+(20, 1, 1, '2024-11-04', 1),
+(21, 1, 1, '2024-11-04', 1),
+(22, 1, 1, '2024-11-04', 1),
+(23, 1, 1, '2024-11-04', 1),
+(24, 1, 1, '2024-11-04', 1),
+(25, 1, 1, '2024-11-04', 1),
+(26, 1, 1, '2024-11-04', 1),
+(27, 1, 1, '2024-11-04', 1),
+(28, 1, 1, '2024-11-04', 1),
+(29, 1, 1, '2024-11-04', 1),
+(30, 1, 1, '2024-11-04', 1),
+(31, 1, 1, '2024-11-04', 1),
+(32, 1, 1, '2024-11-04', 1),
+(33, 1, 1, '2024-11-04', 1),
+(34, 1, 1, '2024-11-04', 1),
+(35, 1, 1, '2024-11-04', 1),
+(36, 1, 1, '2024-11-04', 1),
+(37, 1, 1, '2024-11-04', 1),
+(38, 1, 1, '2024-11-04', 1),
+(39, 2, 1, '2024-11-04', 1);
 
 -- --------------------------------------------------------
 
@@ -236,15 +275,15 @@ ALTER TABLE `debtor`
 --
 ALTER TABLE `expenses`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `idRequester` (`idRequester`);
+  ADD KEY `idRequester` (`idRequester`) USING BTREE;
 
 --
 -- Indexes for table `orders`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `idProduct` (`idProduct`),
-  ADD UNIQUE KEY `idRequester` (`idRequester`);
+  ADD KEY `idProduct` (`idProduct`) USING BTREE,
+  ADD KEY `idRequester` (`idRequester`) USING BTREE;
 
 --
 -- Indexes for table `position`
@@ -264,24 +303,24 @@ ALTER TABLE `product`
 --
 ALTER TABLE `stock`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `idProduct` (`idProduct`),
-  ADD KEY `idRequester` (`idRequester`);
+  ADD KEY `idRequester` (`idRequester`),
+  ADD KEY `idProduct` (`idProduct`) USING BTREE;
 
 --
 -- Indexes for table `stockin`
 --
 ALTER TABLE `stockin`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `idProduct` (`idProduct`),
-  ADD KEY `idRequester` (`idRequester`);
+  ADD KEY `idRequester` (`idRequester`),
+  ADD KEY `idProduct` (`idProduct`) USING BTREE;
 
 --
 -- Indexes for table `stockout`
 --
 ALTER TABLE `stockout`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `idProduct` (`idProduct`),
-  ADD KEY `idRequester` (`idRequester`);
+  ADD KEY `idRequester` (`idRequester`),
+  ADD KEY `idProduct` (`idProduct`) USING BTREE;
 
 --
 -- Indexes for table `user`
@@ -334,7 +373,7 @@ ALTER TABLE `stockin`
 -- AUTO_INCREMENT for table `stockout`
 --
 ALTER TABLE `stockout`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 --
 -- AUTO_INCREMENT for table `user`
 --
@@ -379,6 +418,7 @@ ALTER TABLE `stockin`
 --
 ALTER TABLE `stockout`
   ADD CONSTRAINT `stockout_ibfk_1` FOREIGN KEY (`idRequester`) REFERENCES `user` (`id`);
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

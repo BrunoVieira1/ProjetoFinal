@@ -5,17 +5,16 @@ from models.stockout import StockOut
 from models.product import Product
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
-from datetime import datetime, timedelta, date
+from datetime import datetime, timedelta
 from database.db import db
 
 def datasession(stock, cnv, vendas):
     hoje = datetime.now()
-    trinta_dias_atras = hoje - timedelta(days=30)
+    diaatual = hoje - timedelta(days=2)
     column = 800
-    if vendas == "Vendas":
-        row = 350
-    else:
-        row = 80
+
+    row = 80
+    
     queryStockOut = db.session.query(stock, Product).join(Product, Product.id == stock.idProduct).all()
     queryStock = db.session.query(stock).all()
     
@@ -30,8 +29,7 @@ def datasession(stock, cnv, vendas):
                 }
                 for stock, product in queryStockOut
             ]
-    datastock = [stock for stock in data2 if datetime.strptime(stock['date'], '%Y-%m-%d') >= trinta_dias_atras]
-    datastock = sorted(datastock, key=lambda x: x['date'])
+    datastock = [stock for stock in data2 if datetime.strptime(stock['date'], '%Y-%m-%d') >= diaatual]
 
     numeros = [obj["idProduct"] for obj in datastock]
 
@@ -70,28 +68,31 @@ def datasession(stock, cnv, vendas):
             xd = i[1]
     print(xd, lucro)
 
-    cnv.drawString(row, 50, f"Maior {vendas}")
+    cnv.drawString(row, 50, f"Maior lucro Diario")
     cnv.drawString(row, 30, lucro)
     cnv.drawString(row + 90, 30, f"R$: {xd}")
-    datastock = [stock for stock in data2 if datetime.strptime(stock['date'], '%Y-%m-%d') >= trinta_dias_atras]
+    datastock = [stock for stock in data2 if datetime.strptime(stock['date'], '%Y-%m-%d') >= diaatual]
     datastock = sorted(datastock, key=lambda x: x['date'])
-    cnv.drawString(row, column, f"{vendas}: ordem data")
+    cnv.drawString(row, column, f"Relatório Diario")
     column -= 20 
     row -= 60
     for i in datastock:
-        cnv.drawString(row, column, f"{i['name']} - Quantidade: {i['qtt']} - Data: {i['date']}")
+        if column <= 70:
+            column = 780
+            row += 280
+        cnv.drawString(row, column, f"{i['name']} - Quantidade: {i['qtt']} - R$: {round(i['qtt']* i['price'], 2)}")
         column -= 20
+    print(len(data2))
 
 def download_pdf():
     
     
-    cnv = canvas.Canvas("pdf.pdf", pagesize=A4)
+    cnv = canvas.Canvas("../front/public/diario.pdf", pagesize=A4)
     cnv.setFont("Helvetica", 8)
     queryUser = User.query.all()
     dataUser = [usuario.to_dict() for usuario in queryUser][0]
     
     datasession(StockOut, cnv, "Vendas")
-    datasession(StockIn, cnv, "Compras")
     cnv.save()
 
     return "true"

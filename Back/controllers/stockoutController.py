@@ -17,7 +17,7 @@ def stockout_controller():
             data2 = [stock['qtt'] for stock in stockData['stock']]
             data2 = data2[0]
             if data2 < data['qtt']:
-                return 'errorr'
+                return {'error': f'Sem estoque xd'}
             idstock = int(stockData['stock'][0]['id'])
             db.session.add(stockout)
             db.session.commit()
