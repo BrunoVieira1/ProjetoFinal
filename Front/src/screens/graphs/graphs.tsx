@@ -42,9 +42,8 @@ function Graphs() {
             Produtos com baixo estoque
           </h1>
           <div>
-            {stockmin.map((sm) => (
-              <table key={sm.id}>
-                <tr className="border-b border-black bg-red-300">
+            <table>
+                <tr className="border-b border-black bg-red-300" >
                   <th className="border-r border-black px-2 text-left">ID</th>
                   <th className="border-r border-black px-2 text-left">Nome</th>
                   <th className="border-r border-black px-2 text-left">
@@ -54,7 +53,8 @@ function Graphs() {
                     Quantidade Minima
                   </th>
                 </tr>
-                <tr className="bg-red-100">
+            {stockmin.map((sm) => (
+                <tr className="bg-red-100" key={sm.id}>
                   <td className="border-r border-black px-2 text-left">
                     {sm.id}
                   </td>
@@ -68,8 +68,8 @@ function Graphs() {
                     {sm.minStock}
                   </td>
                 </tr>
-              </table>
             ))}
+            </table>
           </div>
         </div>
         <div className="border border-black rounded">
@@ -77,8 +77,7 @@ function Graphs() {
             Produtos com alto estoque
           </h1>
           <div>
-            {stockmax.map((sm) => (
-              <table key={sm.id}>
+            <table >
                 <tr className="border-b border-black bg-green-300">
                   <th className="border-r border-black px-2 text-left">ID</th>
                   <th className="border-r border-black px-2 text-left">Nome</th>
@@ -89,7 +88,8 @@ function Graphs() {
                     Quantidade Maxima
                   </th>
                 </tr>
-                <tr className="bg-green-100">
+            {stockmax.map((sm) => (
+                <tr className="bg-green-100" key={sm.id}>
                   <td className="border-r border-black px-2 text-left">
                     {sm.id}
                   </td>
@@ -103,8 +103,8 @@ function Graphs() {
                     {sm.maxStock}
                   </td>
                 </tr>
-              </table>
             ))}
+            </table>
           </div>
         </div>
       </div>

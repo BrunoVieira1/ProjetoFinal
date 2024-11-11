@@ -3,23 +3,22 @@ from models.stockin import StockIn
 from controllers.stockinController import stockin_controller
 from database.db import db
 from datetime import datetime, timedelta
-from sqlalchemy import asc
+from sqlalchemy import asc, func
 
 def getGraph():
-    thirty_days_ago = datetime.now() - timedelta(days=30)
-    data = db.session.query(StockIn, Product).join(Product, Product.id == StockIn.idProduct).filter(StockIn.date >= thirty_days_ago).order_by(asc(StockIn.date)).all()
-    dados = [
-        {
-            'id' : stockin.id,
-            'idProduct' : stockin.idProduct,
-            'qtt' : stockin.qtt,
-            'date' : stockin.date.strftime('%d/%m/%Y'),
-            'name' : product.name,
-            'price' : round(product.price * stockin.qtt, 2),
-        }
-        for stockin, product in data
-        ]
-    return dados, 200
+    week = datetime.now() - timedelta(days=7)
+    last_7_days = [(week + timedelta(days=i)).strftime('%Y-%m-%d') for i in range(7)]
+    data2 = (db.session.query(StockIn.date.label('date'), func.sum(StockIn.qtt * Product.price)
+                              .label('profit'))
+                              .join(Product, StockIn.idProduct == Product.id)
+                              .filter(StockIn.date >= week)
+                              .group_by(StockIn.date).order_by(StockIn.date)
+                              .all())
+    profit_per_day = {date: 0.0 for date in last_7_days}
+    for result in data2:
+        profit_per_day[result.date.strftime('%Y-%m-%d')] = float(result.profit)
+    profit_list = [{"date": date, "lucro": profit} for date, profit in profit_per_day.items()]
+    return profit_list, 200
 
 def stockin_routes(app):
     app.route('/stockin', methods=['POST', 'GET', 'PUT', 'DELETE'])(stockin_controller)
