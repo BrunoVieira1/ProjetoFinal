@@ -11,7 +11,7 @@ import {
   AreaChart,
 } from "recharts";
 interface props {
-  location: string;
+  stockinout: any;
 }
 interface StockInOut {
   id: number;
@@ -22,30 +22,7 @@ interface StockInOut {
   price: number;
 }
 
-function parseDate(dateString: string): Date {
-  const [day, month, year] = dateString.split("/").map(Number);
-  return new Date(year, month - 1, day); // Mês em Date é zero-based (0 = Janeiro)
-}
-
-function Graph({ location }: props) {
-  const [stockinout, setStockinout] = useState<StockInOut[]>([]);
-  async function getData() {
-    try {
-      const data1 = await Api.get(`/${location}/getgraph`);
-      data1.data.sort(
-        (a: any, b: any) =>
-          parseDate(b.date).getTime() - parseDate(a.date).getTime()
-      );
-
-      console.log(data1);
-      setStockinout(data1.data);
-    } catch (e) {
-      console.error(e);
-    }
-  }
-  useEffect(() => {
-    getData();
-  }, []);
+function Graph({ stockinout }: props) {
   return (
     <>
       <LineChart

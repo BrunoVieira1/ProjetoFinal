@@ -1,3 +1,4 @@
+from flask import request
 from models.product import Product
 from models.stockout import StockOut
 from controllers.stockoutController import stockout_controller
@@ -6,8 +7,10 @@ from datetime import datetime, timedelta
 from sqlalchemy import asc, func
 
 def getGraphh():
-    week = datetime.now() - timedelta(days=7)
-    last_7_days = [(week + timedelta(days=i)).strftime('%Y-%m-%d') for i in range(7)]
+    day = int(request.args.get('day'))
+    print(day)
+    week = datetime.now() - timedelta(days=day)
+    last_7_days = [(week + timedelta(days=i)).strftime('%Y-%m-%d') for i in range(day)]
     data2 = (db.session.query(StockOut.date.label('date'), func.sum(StockOut.qtt * Product.price)
                               .label('profit'))
                               .join(Product, StockOut.idProduct == Product.id)

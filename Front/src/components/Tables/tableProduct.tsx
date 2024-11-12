@@ -52,15 +52,7 @@ export function TableDemo() {
 
   return (
     <>
-      <TextField
-        id="standard-basic"
-        label="Produto"
-        value={search}
-        onChange={(e) => {
-          setSearch(e.target.value);
-        }}
-        variant="standard"
-      />
+      
       <Table className="overflow-scroll bg-scroll">
         <TableHeader>
           <TableRow>

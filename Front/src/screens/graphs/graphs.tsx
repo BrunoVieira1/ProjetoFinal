@@ -2,6 +2,14 @@ import { Api } from "@/api";
 import Graph from "../../components/graph";
 import Logo from "../../components/logo";
 import { useEffect, useState } from "react";
+import StockInOutModal from "@/modals/stockinoutModal";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface Stock {
   id: number;
@@ -11,8 +19,60 @@ interface Stock {
   qtt: number;
   name: string;
 }
+interface StockInOut {
+  id: number;
+  idProduct: number;
+  qtt: number;
+  date: string;
+  name: string;
+  price: number;
+}
+function parseDate(dateString: string): Date {
+  const [day, month, year] = dateString.split("/").map(Number);
+  return new Date(year, month - 1, day); // Mês em Date é zero-based (0 = Janeiro)
+}
 
-function Graphs() {
+const Graphs = () => {
+  const [selectedValue, setSelectedValue] = useState("1");
+  const handleSelectChange = (value: any) => {
+    setSelectedValue(value);
+    console.log(value);
+  };
+  const [stockin, setStockin] = useState<StockInOut[]>([]);
+  const [stockout, setStockout] = useState<StockInOut[]>([]);
+  async function getData1() {
+    try {
+      const data1 = await Api.get(`/stockin/getgraph?day=${selectedValue}`);
+      data1.data.sort(
+        (a: any, b: any) =>
+          parseDate(b.date).getTime() - parseDate(a.date).getTime()
+      );
+
+      console.log(data1);
+      setStockin(data1.data);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+  async function getData2() {
+    try {
+      const data1 = await Api.get(`/stockout/getgraph?day=${selectedValue}`);
+      data1.data.sort(
+        (a: any, b: any) =>
+          parseDate(b.date).getTime() - parseDate(a.date).getTime()
+      );
+
+      console.log(data1);
+      setStockout(data1.data);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+  useEffect(() => {
+    getData1();
+    getData2();
+  }, [selectedValue]);
+
   async function getMinMax() {
     try {
       const data = await Api.get("/stock/min");
@@ -32,9 +92,29 @@ function Graphs() {
   return (
     <div className="flex justify-center items-center w-full flex-col gap-4">
       <Logo />
+      <div className="gap-8 flex">
+        <StockInOutModal location="stockin" />
+        <StockInOutModal location="stockout" />
+      </div>
+      <Select value={selectedValue} onValueChange={handleSelectChange}>
+        <SelectTrigger className="w-[180px]">
+          <SelectValue placeholder="Dias do Grafico" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="1">Diario</SelectItem>
+          <SelectItem value="7">Semanal</SelectItem>
+          <SelectItem value="30">Mensal</SelectItem>
+        </SelectContent>
+      </Select>
       <div className="flex">
-        <Graph location="stockin" />
-        <Graph location="stockout" />
+        <div>
+          <h1 className="text-center">Grafico de Compras</h1>
+          <Graph stockinout={stockin} />
+        </div>
+        <div>
+          <h1 className="text-center">Graficos de Vendas</h1>
+          <Graph stockinout={stockout} />
+        </div>
       </div>
       <div className="flex gap-2">
         <div className="border border-black rounded">
@@ -43,17 +123,17 @@ function Graphs() {
           </h1>
           <div>
             <table>
-                <tr className="border-b border-black bg-red-300" >
-                  <th className="border-r border-black px-2 text-left">ID</th>
-                  <th className="border-r border-black px-2 text-left">Nome</th>
-                  <th className="border-r border-black px-2 text-left">
-                    Quantidade
-                  </th>
-                  <th className=" border-black px-2 text-left">
-                    Quantidade Minima
-                  </th>
-                </tr>
-            {stockmin.map((sm) => (
+              <tr className="border-b border-black bg-red-300">
+                <th className="border-r border-black px-2 text-left">ID</th>
+                <th className="border-r border-black px-2 text-left">Nome</th>
+                <th className="border-r border-black px-2 text-left">
+                  Quantidade
+                </th>
+                <th className=" border-black px-2 text-left">
+                  Quantidade Minima
+                </th>
+              </tr>
+              {stockmin.map((sm) => (
                 <tr className="bg-red-100" key={sm.id}>
                   <td className="border-r border-black px-2 text-left">
                     {sm.id}
@@ -68,7 +148,7 @@ function Graphs() {
                     {sm.minStock}
                   </td>
                 </tr>
-            ))}
+              ))}
             </table>
           </div>
         </div>
@@ -77,18 +157,18 @@ function Graphs() {
             Produtos com alto estoque
           </h1>
           <div>
-            <table >
-                <tr className="border-b border-black bg-green-300">
-                  <th className="border-r border-black px-2 text-left">ID</th>
-                  <th className="border-r border-black px-2 text-left">Nome</th>
-                  <th className="border-r border-black px-2 text-left">
-                    Quantidade
-                  </th>
-                  <th className=" border-black px-2 text-left">
-                    Quantidade Maxima
-                  </th>
-                </tr>
-            {stockmax.map((sm) => (
+            <table>
+              <tr className="border-b border-black bg-green-300">
+                <th className="border-r border-black px-2 text-left">ID</th>
+                <th className="border-r border-black px-2 text-left">Nome</th>
+                <th className="border-r border-black px-2 text-left">
+                  Quantidade
+                </th>
+                <th className=" border-black px-2 text-left">
+                  Quantidade Maxima
+                </th>
+              </tr>
+              {stockmax.map((sm) => (
                 <tr className="bg-green-100" key={sm.id}>
                   <td className="border-r border-black px-2 text-left">
                     {sm.id}
@@ -103,13 +183,13 @@ function Graphs() {
                     {sm.maxStock}
                   </td>
                 </tr>
-            ))}
+              ))}
             </table>
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Graphs;

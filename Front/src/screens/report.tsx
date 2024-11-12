@@ -2,11 +2,12 @@ import { Api } from "@/api";
 import Logo from "@/components/logo";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-
 function Report() {
-  const handleDownload = async () => {
+  const handleDownload = async (num: number) => {
     try {
-      const response = await Api.get("/pdf");
+      const response = await Api.get(
+        `/${num == 1 ? "diario" : num == 2 ? "semanal" : "mensal"}`
+      );
       console.log(response);
     } catch (error) {
       console.error("Erro ao baixar o PDF", error);
@@ -19,30 +20,80 @@ function Report() {
       <div className="flex-1 w-full p-1">
         <Tabs className="flex-1 w-full flex justify-center flex-col">
           <TabsList className="justify-between mb-2">
-            <TabsTrigger value="diario" className="flex-1 data-[state=active]:bg-zinc-200">
+            <TabsTrigger
+              value="diario"
+              className="flex-1 data-[state=active]:bg-zinc-200"
+            >
               Diario
             </TabsTrigger>
-            <TabsTrigger value="semanal" className="flex-1 data-[state=active]:bg-zinc-200">
+            <TabsTrigger
+              value="semanal"
+              className="flex-1 data-[state=active]:bg-zinc-200"
+            >
               Semanal
             </TabsTrigger>
-            <TabsTrigger value="mensal" className="flex-1 data-[state=active]:bg-zinc-200">
+            <TabsTrigger
+              value="mensal"
+              className="flex-1 data-[state=active]:bg-zinc-200"
+            >
               Mensal
             </TabsTrigger>
           </TabsList>
-          <TabsContent value="diario" className="flex justify-center gap-4 mt-0">
-            <button onClick={handleDownload} className="hover:underline">Gerar PDF</button>
-            <a href={`public/diario.pdf`} download="diario.pdf"  className="hover:underline">Baixar PDF</a>
+          <TabsContent
+            value="diario"
+            className="flex justify-center gap-4 mt-0"
+          >
+            <button
+              onClick={() => handleDownload(1)}
+              className="hover:underline"
+            >
+              Gerar PDF
+            </button>
+            <a
+              href={`public/diario.pdf`}
+              download="diario.pdf"
+              className="hover:underline"
+            >
+              Baixar PDF
+            </a>
           </TabsContent>
-          <TabsContent value="semanal" className="flex justify-center gap-4 mt-0">
-            <button onClick={handleDownload} className="hover:underline">Gerar PDF</button>
-            <a href={`public/diario.pdf`} download="diario.pdf"  className="hover:underline">Baixar PDF</a>
+          <TabsContent
+            value="semanal"
+            className="flex justify-center gap-4 mt-0"
+          >
+            <button
+              onClick={() => handleDownload(2)}
+              className="hover:underline"
+            >
+              Gerar PDF
+            </button>
+            <a
+              href={`public/semanal.pdf`}
+              download="semanal.pdf"
+              className="hover:underline"
+            >
+              Baixar PDF
+            </a>
           </TabsContent>
-          <TabsContent value="mensal" className="flex justify-center gap-4 mt-0">
-            <button onClick={handleDownload} className="hover:underline">Gerar PDF</button>
-            <a href={`public/diario.pdf`} download="diario.pdf"  className="hover:underline">Baixar PDF</a>
+          <TabsContent
+            value="mensal"
+            className="flex justify-center gap-4 mt-0"
+          >
+            <button
+              onClick={() => handleDownload(3)}
+              className="hover:underline"
+            >
+              Gerar PDF
+            </button>
+            <a
+              href={`public/mensal.pdf`}
+              download="mensal.pdf"
+              className="hover:underline"
+            >
+              Baixar PDF
+            </a>
           </TabsContent>
         </Tabs>
-
       </div>
     </div>
   );
