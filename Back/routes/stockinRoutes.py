@@ -8,9 +8,19 @@ from sqlalchemy import asc, func
 
 def getGraph():
     day = int(request.args.get('day'))
+    productid = int(request.args.get('idproduct'))
     week = datetime.now() - timedelta(days=day)
     last_7_days = [(week + timedelta(days=i)).strftime('%Y-%m-%d') for i in range(day)]
-    data2 = (db.session.query(StockIn.date.label('date'), func.sum(StockIn.qtt * Product.price)
+    if productid != 0:
+        data2 = (db.session.query(StockIn.date.label('date'), func.sum(StockIn.qtt * Product.price)
+                              .label('profit'))
+                              .join(Product, StockIn.idProduct == Product.id)
+                              .filter(StockIn.date >= week)
+                              .filter(StockIn.idProduct == productid)
+                              .group_by(StockIn.date).order_by(StockIn.date)
+                              .all())
+    else:
+        data2 = (db.session.query(StockIn.date.label('date'), func.sum(StockIn.qtt * Product.price)
                               .label('profit'))
                               .join(Product, StockIn.idProduct == Product.id)
                               .filter(StockIn.date >= week)

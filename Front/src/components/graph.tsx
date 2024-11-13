@@ -13,14 +13,6 @@ import {
 interface props {
   stockinout: any;
 }
-interface StockInOut {
-  id: number;
-  idProduct: number;
-  qtt: number;
-  date: string;
-  name: string;
-  price: number;
-}
 
 function Graph({ stockinout }: props) {
   return (

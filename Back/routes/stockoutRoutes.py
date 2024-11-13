@@ -8,10 +8,20 @@ from sqlalchemy import asc, func
 
 def getGraphh():
     day = int(request.args.get('day'))
+    productid = int(request.args.get('idproduct'))
     print(day)
     week = datetime.now() - timedelta(days=day)
     last_7_days = [(week + timedelta(days=i)).strftime('%Y-%m-%d') for i in range(day)]
-    data2 = (db.session.query(StockOut.date.label('date'), func.sum(StockOut.qtt * Product.price)
+    if productid != 0:
+        data2 = (db.session.query(StockOut.date.label('date'), func.sum(StockOut.qtt * Product.price)
+                              .label('profit'))
+                              .join(Product, StockOut.idProduct == Product.id)
+                              .filter(StockOut.date >= week)
+                              .filter(StockOut.idProduct == productid)
+                              .group_by(StockOut.date).order_by(StockOut.date)
+                              .all())
+    else:
+        data2 = (db.session.query(StockOut.date.label('date'), func.sum(StockOut.qtt * Product.price)
                               .label('profit'))
                               .join(Product, StockOut.idProduct == Product.id)
                               .filter(StockOut.date >= week)

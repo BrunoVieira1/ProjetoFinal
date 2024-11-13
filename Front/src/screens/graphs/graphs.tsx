@@ -27,6 +27,14 @@ interface StockInOut {
   name: string;
   price: number;
 }
+interface Product {
+  id: number;
+  brand: string;
+  name: string;
+  type: string;
+  idBrand: number;
+  price: number;
+}
 function parseDate(dateString: string): Date {
   const [day, month, year] = dateString.split("/").map(Number);
   return new Date(year, month - 1, day); // Mês em Date é zero-based (0 = Janeiro)
@@ -34,15 +42,26 @@ function parseDate(dateString: string): Date {
 
 const Graphs = () => {
   const [selectedValue, setSelectedValue] = useState("1");
+  const [stockin, setStockin] = useState<StockInOut[]>([]);
+  const [stockout, setStockout] = useState<StockInOut[]>([]);
+  const [stockmin, setStockmin] = useState<Stock[]>([]);
+  const [stockmax, setStockmax] = useState<Stock[]>([]);
+  const [idproduct, setIdproduct] = useState("0");
+  const [product, setProduct] = useState<Product[]>([]);
   const handleSelectChange = (value: any) => {
     setSelectedValue(value);
     console.log(value);
   };
-  const [stockin, setStockin] = useState<StockInOut[]>([]);
-  const [stockout, setStockout] = useState<StockInOut[]>([]);
+  const handleSelectProduct = (value: any) => {
+    setIdproduct(value);
+    console.log(value);
+  };
+
   async function getData1() {
     try {
-      const data1 = await Api.get(`/stockin/getgraph?day=${selectedValue}`);
+      const data1 = await Api.get(
+        `/stockin/getgraph?day=${selectedValue}&idproduct=${idproduct}`
+      );
       data1.data.sort(
         (a: any, b: any) =>
           parseDate(b.date).getTime() - parseDate(a.date).getTime()
@@ -54,9 +73,12 @@ const Graphs = () => {
       console.error(e);
     }
   }
+
   async function getData2() {
     try {
-      const data1 = await Api.get(`/stockout/getgraph?day=${selectedValue}`);
+      const data1 = await Api.get(
+        `/stockout/getgraph?day=${selectedValue}&idproduct=${idproduct}`
+      );
       data1.data.sort(
         (a: any, b: any) =>
           parseDate(b.date).getTime() - parseDate(a.date).getTime()
@@ -71,7 +93,7 @@ const Graphs = () => {
   useEffect(() => {
     getData1();
     getData2();
-  }, [selectedValue]);
+  }, [selectedValue, idproduct]);
 
   async function getMinMax() {
     try {
@@ -84,10 +106,18 @@ const Graphs = () => {
       console.error(e);
     }
   }
-  const [stockmin, setStockmin] = useState<Stock[]>([]);
-  const [stockmax, setStockmax] = useState<Stock[]>([]);
+  async function getProduct() {
+    try {
+      const data = await Api.get("/product");
+      setProduct(data.data);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+  console.log(product);
   useEffect(() => {
     getMinMax();
+    getProduct();
   }, []);
   return (
     <div className="flex justify-center items-center w-full flex-col gap-4">
@@ -96,16 +126,33 @@ const Graphs = () => {
         <StockInOutModal location="stockin" />
         <StockInOutModal location="stockout" />
       </div>
-      <Select value={selectedValue} onValueChange={handleSelectChange}>
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Dias do Grafico" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="1">Diario</SelectItem>
-          <SelectItem value="7">Semanal</SelectItem>
-          <SelectItem value="30">Mensal</SelectItem>
-        </SelectContent>
-      </Select>
+      <div className="flex gap-8">
+        <Select value={selectedValue} onValueChange={handleSelectChange}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Dias do Grafico" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="1">Diario</SelectItem>
+            <SelectItem value="7">Semanal</SelectItem>
+            <SelectItem value="30">Mensal</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select onValueChange={handleSelectProduct} value={idproduct}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Produto" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="0">Todos</SelectItem>
+            {product.map((product) => {
+              return (
+                <SelectItem key={product.id} value={product.id}>
+                  {product.name}
+                </SelectItem>
+              );
+            })}
+          </SelectContent>
+        </Select>
+      </div>
       <div className="flex">
         <div>
           <h1 className="text-center">Grafico de Compras</h1>
@@ -134,7 +181,7 @@ const Graphs = () => {
                 </th>
               </tr>
               {stockmin.map((sm) => (
-                <tr className="bg-red-100" key={sm.id}>
+                <tr className="bg-red-100 border-b border-black" key={sm.id}>
                   <td className="border-r border-black px-2 text-left">
                     {sm.id}
                   </td>
@@ -169,7 +216,7 @@ const Graphs = () => {
                 </th>
               </tr>
               {stockmax.map((sm) => (
-                <tr className="bg-green-100" key={sm.id}>
+                <tr className="bg-green-100 border-b border-black" key={sm.id}>
                   <td className="border-r border-black px-2 text-left">
                     {sm.id}
                   </td>
