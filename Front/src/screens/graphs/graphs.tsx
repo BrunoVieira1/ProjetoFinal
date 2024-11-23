@@ -10,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import Piechart from "@/components/piechart";
 
 interface Stock {
   id: number;
@@ -120,11 +121,16 @@ const Graphs = () => {
     getProduct();
   }, []);
   return (
-    <div className="flex justify-center items-center w-full flex-col gap-4">
+    <div className="flex justify-center items-center w-full flex-col gap-4 overflow-y-scroll">
       <Logo />
       <div className="gap-8 flex">
         <StockInOutModal location="stockin" />
         <StockInOutModal location="stockout" />
+      </div>
+      <div className="flex justify-center items-center w-full flex-col gap-4 flex-1">
+      <div className="w-full">
+        <h1 className="text-center font-bold text-2xl">Relatório Anual Lucro e Gasto</h1>
+          <Piechart />
       </div>
       <div className="flex gap-8">
         <Select value={selectedValue} onValueChange={handleSelectChange}>
@@ -163,6 +169,7 @@ const Graphs = () => {
           <Graph stockinout={stockout} />
         </div>
       </div>
+      
       <div className="flex gap-2">
         <div className="border border-black rounded">
           <h1 className="border-b border-black font-bold text-red-700 text-center">
@@ -170,7 +177,7 @@ const Graphs = () => {
           </h1>
           <div>
             <table>
-              <tr className="border-b border-black bg-red-300">
+              <tr className="border-b border-black ">
                 <th className="border-r border-black px-2 text-left">ID</th>
                 <th className="border-r border-black px-2 text-left">Nome</th>
                 <th className="border-r border-black px-2 text-left">
@@ -181,7 +188,7 @@ const Graphs = () => {
                 </th>
               </tr>
               {stockmin.map((sm) => (
-                <tr className="bg-red-100 border-b border-black" key={sm.id}>
+                <tr className=" border-b border-black" key={sm.id}>
                   <td className="border-r border-black px-2 text-left">
                     {sm.id}
                   </td>
@@ -198,14 +205,16 @@ const Graphs = () => {
               ))}
             </table>
           </div>
+
         </div>
+        
         <div className="border border-black rounded">
           <h1 className="border-b border-black font-bold text-green-700 text-center">
             Produtos com alto estoque
           </h1>
           <div>
             <table>
-              <tr className="border-b border-black bg-green-300">
+              <tr className="border-b border-black ">
                 <th className="border-r border-black px-2 text-left">ID</th>
                 <th className="border-r border-black px-2 text-left">Nome</th>
                 <th className="border-r border-black px-2 text-left">
@@ -216,7 +225,7 @@ const Graphs = () => {
                 </th>
               </tr>
               {stockmax.map((sm) => (
-                <tr className="bg-green-100 border-b border-black" key={sm.id}>
+                <tr className=" border-b border-black" key={sm.id}>
                   <td className="border-r border-black px-2 text-left">
                     {sm.id}
                   </td>
@@ -235,6 +244,7 @@ const Graphs = () => {
           </div>
         </div>
       </div>
+        </div>
     </div>
   );
 };

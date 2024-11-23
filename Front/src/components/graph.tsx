@@ -23,9 +23,9 @@ function Graph({ stockinout }: props) {
         data={stockinout}
         margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
       >
-        <Line type="monotone" dataKey="lucro" stroke="#eab308" />
-        <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-        <XAxis dataKey="date" />
+        <Line type="monotone" dataKey="lucro" stroke="#eab308" dot={false} />
+        
+        <XAxis dataKey="date"/>
         <YAxis />
         <Tooltip />
       </LineChart>
