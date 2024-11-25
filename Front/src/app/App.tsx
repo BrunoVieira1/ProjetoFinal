@@ -25,7 +25,9 @@ function App() {
         <Login />
       ) : (
         <>
+        <div className="min-h-screen w-64">
           <Sidebar />
+        </div>
           <RoutesApp />
         </>
       )}

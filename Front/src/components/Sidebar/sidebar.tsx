@@ -37,7 +37,7 @@ function Sidebar() {
         params: { id: UserId },
       });
 
-      setUser(response.data[0]);
+      setUser(response.data);
       console.log(user);
     } catch (e) {
       console.error("Erro ao buscar usuário:", e);
@@ -47,23 +47,22 @@ function Sidebar() {
   useEffect(() => {
     getUser();
   }, []);
-  const [user, setUser] = useState<User[]>([]);
+  const [user, setUser] = useState<User>({
+    id: 0,
+    name: "b",
+  });
   return (
     <>
-      <div className="bg-yellow-400 min-h-screen w-64 max-w-64 p-5 flex flex-col gap-3">
+      <div className="bg-yellow-400 min-h-screen fixed p-5 flex flex-col gap-3 w-64 max-w-64">
         <Accordion type="single" collapsible>
           <AccordionItem value="item-1">
             <AccordionTrigger>
-              <Avatar>{user.name}</Avatar>
+              <Avatar>{user.name[0].toUpperCase()}</Avatar>
               {user.name}
             </AccordionTrigger>
 
             <AccordionContent className="flex flex-col gap-2">
-              <Dialog>
-                <Button variant="outline" className="bg-yellow-400">
-                  Perfil
-                </Button>
-              </Dialog>
+              
               <Dialog>
                 <DialogTrigger className="bg-red-600 rounded py-2 hover:bg-red-500 transition-all">
                   Sair

@@ -54,3 +54,36 @@ def calcular_lucro_gastos_anual():
         })
 
     return resultado_anual
+
+from flask import request
+from datetime import datetime
+from sqlalchemy import func
+
+def getStatistics():
+    try:
+        
+
+        # Calcula Lucro Total (StockIn)
+        query_stockin = db.session.query(func.sum(StockIn.qtt * Product.price).label('total_profit'))
+        query_stockin = query_stockin.join(Product, StockIn.idProduct == Product.id)
+
+        total_profit = query_stockin.scalar() or 0.0
+
+        # Calcula Gasto Total (StockOut)
+        query_stockout = db.session.query(func.sum(StockOut.qtt * Product.price).label('total_expense'))
+        query_stockout = query_stockout.join(Product, StockOut.idProduct == Product.id)
+        total_expense = query_stockout.scalar() or 0.0
+
+        # Calcula Diferença de Estoque Máximo e Atual
+        
+
+        # Formata a resposta
+        response = {
+            "totalProfit": float(total_profit),
+            "totalExpense": float(total_expense),
+        }
+        print(response)
+
+        return response, 200
+    except Exception as e:
+        return {"error": str(e)}, 500

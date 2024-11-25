@@ -1,7 +1,7 @@
 from flask import request, make_response
 from controllers.userController import user_controller
 from models.user import User
-from controllers.graphController import calcular_lucro_gastos_anual
+from controllers.graphController import calcular_lucro_gastos_anual, getStatistics
 
 from controllers.reportController import pdf_diario, pdf_semanal, pdf_mensal
 
@@ -10,8 +10,8 @@ def get_data():
     print(id)
     query = User.query
     query = query.filter_by(id=id).all()
-    print(query)
-    return [usuario.to_dict() for usuario in query]
+    print(query[0].to_dict())
+    return query[0].to_dict()
 
 
 
@@ -23,3 +23,4 @@ def user_routes(app):
     app.route('/semanal', methods=['GET'])(pdf_semanal)
     app.route('/mensal', methods=['GET'])(pdf_mensal)
     app.route('/graph', methods=['GET'])(calcular_lucro_gastos_anual)
+    app.route('/statistics', methods=['GET'])(getStatistics)
