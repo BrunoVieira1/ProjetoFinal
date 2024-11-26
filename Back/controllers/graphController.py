@@ -5,6 +5,7 @@ from database.db import db
 from models.product import Product
 from models.stockin import StockIn
 from models.stockout import StockOut
+from models.debtor import Debtor
 
 
 def calcular_lucro_gastos_anual():
@@ -55,9 +56,9 @@ def calcular_lucro_gastos_anual():
 
     return resultado_anual
 
-from flask import request
+from flask import jsonify, request
 from datetime import datetime
-from sqlalchemy import func
+from sqlalchemy import asc, desc, func
 
 def getStatistics():
     try:
@@ -87,3 +88,57 @@ def getStatistics():
         return response, 200
     except Exception as e:
         return {"error": str(e)}, 500
+    
+def get_debtors():
+    try:
+        # Consulta para buscar devedores e ordenar pelo preço devido (descendente)
+        data = (
+            db.session.query(
+                Debtor.name.label("name"),  # Nome do devedor
+                Debtor.price.label("price")  # Valor devido
+            )
+            .order_by(desc(Debtor.price))  # Ordenar pelo valor devido (descendente)
+            .limit(5)
+            .all()
+        )
+
+        # Transformar os resultados em uma lista de dicionários
+        result = [{"name": item.name, "Divida R$": float(item.price)} for item in data]
+
+        return jsonify(result), 200
+    except Exception as e:
+        print(f"Erro ao buscar devedores: {e}")
+        return jsonify({"error": "Erro ao buscar devedores"}), 500
+    
+    
+def get_debtors2():
+    try:
+        # Consulta para buscar devedores com nome e data da dívida
+        data = (
+            db.session.query(
+                Debtor.name.label("name"),  # Nome do devedor
+                Debtor.date.label("date")  # Data da dívida
+            )
+            .order_by(asc(Debtor.date))  # Ordenar pela data mais recente
+            .limit(5)  # Limitar a no máximo 5 resultados
+            .all()
+        )
+
+        # Obter a data atual e converter para datetime.date
+        current_date = datetime.now().date()
+
+        # Transformar os resultados em uma lista de dicionários, incluindo os dias da dívida
+        result = []
+        for item in data:
+            debt_date = item.date  # Objeto datetime.date
+            days_in_debt = (current_date - debt_date).days  # Calcular diferença em dias
+
+            result.append({
+                "name": item.name,
+                "Dias em Divida": days_in_debt
+            })
+
+        return jsonify(result), 200
+    except Exception as e:
+        print(f"Erro ao buscar devedores: {e}")
+        return jsonify({"error": "Erro ao buscar devedores"}), 500

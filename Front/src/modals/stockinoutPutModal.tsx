@@ -111,7 +111,7 @@ const StockInOutPutModal: React.FC<StockInOutPutModalProps> = ({
         </div>
         <DialogFooter>
           <Button type="submit" onClick={handleUpdate}>
-            Save changes
+            Salvar
           </Button>
         </DialogFooter>
       </DialogContent>

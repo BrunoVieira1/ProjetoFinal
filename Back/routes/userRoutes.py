@@ -1,7 +1,7 @@
 from flask import request, make_response
 from controllers.userController import user_controller
 from models.user import User
-from controllers.graphController import calcular_lucro_gastos_anual, getStatistics
+from controllers.graphController import calcular_lucro_gastos_anual, getStatistics, get_debtors, get_debtors2
 
 from controllers.reportController import pdf_diario, pdf_semanal, pdf_mensal
 
@@ -24,3 +24,5 @@ def user_routes(app):
     app.route('/mensal', methods=['GET'])(pdf_mensal)
     app.route('/graph', methods=['GET'])(calcular_lucro_gastos_anual)
     app.route('/statistics', methods=['GET'])(getStatistics)
+    app.route('/graphdebtors', methods=['GET'])(get_debtors)
+    app.route('/graphdebtors2', methods=['GET'])(get_debtors2)

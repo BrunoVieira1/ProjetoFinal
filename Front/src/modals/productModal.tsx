@@ -107,7 +107,7 @@ function ProductModal() {
         </div>
         <DialogFooter>
           <Button type="submit" onClick={handleCreate}>
-            Save changes
+            Salvar
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -9,6 +9,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CalendarIcon } from "lucide-react"
+import Barchart from "@/components/barchart";
+import Barchart2 from "@/components/barchart2";
 
 
 interface Stock {
@@ -235,7 +237,7 @@ async function getData1() {
             </div>
           </div>
       </div>
-      <div className="bg-zinc-500 w-full h-px px-80 mx-80" />
+      <div className="bg-zinc-500 w-full h-px" />
       <h1 className="text-center font-bold text-3xl mb-6">Relatório Específico</h1>
       <div className="flex gap-8">
         <div>
@@ -306,6 +308,20 @@ async function getData1() {
         <div>
           <h1 className="text-center">Graficos de Vendas</h1>
           <Graph stockinout={stockout} />
+        </div>
+      </div>
+      <div className="bg-zinc-500 w-full h-px" />
+      <div className="w-full flex flex-col items-center mb-6">
+        <h1 className="font-bold text-3xl">Relatório de Fiados</h1>
+        <div className="flex justify-around w-full">
+            <div>
+              <h1 className="text-center">Filtro por maior divida:</h1>
+              <Barchart />
+            </div>
+            <div>
+              <h1 className="text-center">Filtro por tempo em divida:</h1>
+              <Barchart2 />
+            </div>
         </div>
       </div>
       

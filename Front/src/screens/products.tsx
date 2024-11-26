@@ -1,3 +1,4 @@
+import BrandModal from "@/modals/brandModal";
 import { TableDemo } from "../components/Tables/tableProduct";
 import Logo from "../components/logo";
 import ProductModal from "@/modals/productModal";
@@ -8,8 +9,11 @@ function Products() {
       <Logo />
       <div className="flex-1 w-full p-6">
         <div className="flex-1">
-          <div className="flex justify-between"></div>
+          <div className="flex justify-between">
+
           <ProductModal />
+          <BrandModal />
+          </div>
           <TableDemo />
         </div>
       </div>

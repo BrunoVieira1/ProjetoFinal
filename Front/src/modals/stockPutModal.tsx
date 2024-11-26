@@ -122,7 +122,7 @@ const StockPutModal: React.FC<StockPutModalProps> = ({
         </div>
         <DialogFooter>
           <Button type="submit" onClick={handleCreate}>
-            Save changes
+            Salvar
           </Button>
         </DialogFooter>
       </DialogContent>

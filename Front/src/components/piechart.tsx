@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { Pie, PieChart } from "recharts"
 import {
   ChartConfig,
   ChartContainer,
