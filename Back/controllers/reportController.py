@@ -236,7 +236,7 @@ def gerar_relatorio_semanal(cnv):
     
             # Procurar o nome do produto correspondente ao ID
             produto_mais_vendido_nome = next((item['name'] for item in data2 if item['idProduct'] == produto_mais_vendido_id), "Nome desconhecido")
-            cnv.drawString(row, column, f"Produto Mais Vendido: {produto_mais_vendido_nome} - Quantidade: {quantidade_mais_vendida}")
+            cnv.drawString(row, column, f"Produto Mais Vendido: {produto_mais_vendido_nome}")
         else:
             cnv.drawString(row, column, "Produto Mais Vendido: Nenhum dado disponível")
     else:

@@ -10,6 +10,7 @@ import {
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import DebtorPutModal from "@/modals/debtorPutModal";
+import DeleteModal from "@/modals/deleteModal";
 
 interface Debtor {
   id: number;
@@ -30,7 +31,7 @@ export function TableDemo() {
   }
 
   function deleteDebtor(id: number) {
-    Api.delete("/debtors", {
+    Api.delete("/debtor", {
       data: {
         id: id,
       },
@@ -48,7 +49,7 @@ export function TableDemo() {
         <TableRow>
           <TableHead className="w-[100px]">ID</TableHead>
           <TableHead>Nome</TableHead>
-          <TableHead>Preço</TableHead>
+          <TableHead>Valor</TableHead>
           <TableHead>Data</TableHead>
         </TableRow>
       </TableHeader>
@@ -60,12 +61,7 @@ export function TableDemo() {
             <TableCell>{debtor.price}</TableCell>
             <TableCell>{debtor.date}</TableCell>
             <TableCell className="text-right">
-              <Button
-                variant={"destructive"}
-                onClick={() => deleteDebtor(debtor.id)}
-              >
-                Excluir
-              </Button>
+              <DeleteModal id={debtor.id} location="debtor"/>
             </TableCell>
             <TableCell className="text-right">
               <DebtorPutModal

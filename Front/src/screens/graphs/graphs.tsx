@@ -216,14 +216,14 @@ async function getData1() {
       </div>
       <div className="flex justify-center items-center w-full flex-col gap-4 flex-1">
       <div className="w-full">
-        <h1 className="text-center font-bold text-3xl mb-6">Relatório Anual Lucro e Gasto</h1>
+        <h1 className="text-center font-bold text-3xl mb-6">Relatório Anual Ganhos e Gastos</h1>
         <div className="flex gap-4 justify-center">
         <h1 className="font-bold">Total de Ganhos:</h1>
         <h1 className="font-bold">Total de Gastos:</h1>
         </div>
         <div className="flex gap-4 justify-center">
-        <h1 className="font-semibold">R${statistics.totalProfit.toFixed(2)}</h1>
         <h1 className="font-semibold">R${statistics.totalExpense.toFixed(2)}</h1>
+        <h1 className="font-semibold">R${statistics.totalProfit.toFixed(2)}</h1>
         </div>
           <Piechart />
           <div className="flex justify-center gap-6">
@@ -238,7 +238,7 @@ async function getData1() {
           </div>
       </div>
       <div className="bg-zinc-500 w-full h-px" />
-      <h1 className="text-center font-bold text-3xl mb-6">Relatório Específico</h1>
+      <h1 className="text-center font-bold text-3xl mb-6">Relatório Específico de compras e vendas</h1>
       <div className="flex gap-8">
         <div>
           <h1>Data Inicio: </h1>
@@ -281,8 +281,7 @@ async function getData1() {
     </Popover>
     
   </div>
-      </div>
-      <div>
+  <div>
         <h1>Produto:</h1>
         <Select onValueChange={handleSelectProduct} value={idproduct}>
           <SelectTrigger className="w-[180px]">
@@ -300,6 +299,8 @@ async function getData1() {
           </SelectContent>
         </Select>
       </div>
+      </div>
+      
       <div className="flex">
         <div>
           <h1 className="text-center">Grafico de Compras</h1>

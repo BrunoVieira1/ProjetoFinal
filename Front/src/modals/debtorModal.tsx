@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -24,7 +24,7 @@ function DebtorModal() {
       await Api.post("/debtor", {
         name: debtor.name,
         price: debtor.price,
-        date: debtor.date,
+        date: dataAtual,
         idRequester: 1,
       });
       alert("Devedor cadastrado com sucesso!");
@@ -34,6 +34,15 @@ function DebtorModal() {
     }
   }
 
+  const [dataAtual, setDataAtual] = useState("");
+
+  useEffect(() => {
+    const data = new Date();
+    const ano = data.getFullYear();
+    const mes = String(data.getMonth() + 1).padStart(2, "0"); // getMonth() retorna de 0 a 11, então somamos 1
+    const dia = String(data.getDate()).padStart(2, "0"); // padStart para garantir dois dígitos
+    setDataAtual(`${ano}-${mes}-${dia}`);
+  }, []);
   const [debtor, setDebtor] = useState<Debtor>({
     name: "",
     price: 0,
@@ -63,7 +72,7 @@ function DebtorModal() {
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="price" className="text-right">
-              Preço
+              Valor
             </Label>
             <Input
               id="price"
@@ -73,18 +82,7 @@ function DebtorModal() {
               className="col-span-3"
             />
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="date" className="text-right">
-              Data
-            </Label>
-            <Input
-              id="date"
-              type="date"
-              value={debtor.date}
-              onChange={(e) => setDebtor({ ...debtor, date: e.target.value })}
-              className="col-span-3"
-            />
-          </div>
+          
         </div>
         <DialogFooter>
           <Button type="submit" onClick={handleCreate}>

@@ -51,15 +51,12 @@ const StockPutModal: React.FC<StockPutModalProps> = ({
         qtt: stock.qtt,
         idRequester: 1,
       });
-      alert("cadastrado");
+      alert("Editado");
       console.log(stock);
     } catch (e) {
       console.error("erro", e);
     }
   }
-  const handleProductChange = (value: string) => {
-    setStock({ ...stock, idProduct: +value });
-  };
   return (
     <Dialog>
       <DialogTrigger className="hover:underline">
@@ -108,17 +105,7 @@ const StockPutModal: React.FC<StockPutModalProps> = ({
               className="col-span-3"
             />
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="product" className="text-right">
-              Nome Produto
-            </Label>
-            <SelectModal
-              id="product"
-              location="product"
-              value={stock.idProduct}
-              onValueChange={handleProductChange}
-            />
-          </div>
+          
         </div>
         <DialogFooter>
           <Button type="submit" onClick={handleCreate}>

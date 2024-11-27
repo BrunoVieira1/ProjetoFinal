@@ -10,6 +10,7 @@ import {
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import StockPutModal from "@/modals/stockPutModal";
+import DeleteModal from "@/modals/deleteModal";
 
 interface Stock {
   id: number;
@@ -60,12 +61,7 @@ export function TableDemo() {
             <TableCell>{stock.maxStock}</TableCell>
             <TableCell className="text-right">{stock.qtt}</TableCell>
             <TableCell className="text-right">
-              <Button
-                variant={"destructive"}
-                onClick={() => deleteStock(stock.id)}
-              >
-                Excluir
-              </Button>
+              <DeleteModal id={stock.id} location="stock"/>
             </TableCell>
             <TableCell className="text-right">
               <StockPutModal

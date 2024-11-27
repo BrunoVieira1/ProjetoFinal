@@ -11,6 +11,7 @@ import { TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import ProductPutModal from "@/modals/productPutModal";
+import DeleteModal from "@/modals/deleteModal";
 
 interface Product {
   id: number;
@@ -72,12 +73,7 @@ export function TableDemo() {
               <TableCell>{product.brand}</TableCell>
               <TableCell className="text-right">R${product.price}</TableCell>
               <TableCell className="text-right">
-                <Button
-                  variant={"destructive"}
-                  onClick={() => deleteProduct(product.id)}
-                >
-                  Excluir
-                </Button>
+                <DeleteModal id={product.id} location="product"/>
               </TableCell>
               <TableCell className="text-right">
                 <ProductPutModal

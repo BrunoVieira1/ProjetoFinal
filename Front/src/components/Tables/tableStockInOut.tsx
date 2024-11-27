@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import StockInOutModal from "@/modals/stockinoutModal";
 import StockInOutPutModal from "@/modals/stockinoutPutModal";
+import DeleteModal from "@/modals/deleteModal";
 
 interface StockInOut {
   id: number;
@@ -71,12 +72,7 @@ function TableStockinout({ location }: props) {
               <TableCell>{product.qtt}</TableCell>
               <TableCell className="text-right">{product.date}</TableCell>
               <TableCell className="text-right">
-                <Button
-                  variant={"destructive"}
-                  onClick={() => deleteStockInOut(product.id)}
-                >
-                  Excluir
-                </Button>
+                <DeleteModal id={product.id} location={location} />
               </TableCell>
               <TableCell className="text-right">
                 <StockInOutPutModal
