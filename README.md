@@ -9,13 +9,13 @@ Este projeto é um sistema de gerenciamento de bar desenvolvido para facilitar a
 - **Gestão de Pedidos**: Permite que os funcionários do bar registrem e acompanhem os pedidos dos clientes.
 - **Controle de Estoque**: Monitora o estoque de bebidas e ingredientes, alertando sobre a necessidade de reabastecimento.
 - **Relatórios**: Geração de relatórios diários, semanais e mensais sobre vendas e estoque.
-- **Interface Amigável**: Um design intuitivo e responsivo que pode ser utilizado tanto em desktops quanto em tablets.
+- **Interface Amigável**: Um design intuitivo que pode ser utilizado em desktops.
 
 ## **Tecnologias Utilizadas**
 
 - **Frontend**: React
   - Biblioteca de componentes: React Router
-  - Estilização: TailWind
+  - Estilização: TailWind, Shadcn
 - **Backend**: Python
   - Framework: Flask
 - **Banco de Dados**: MySQL
