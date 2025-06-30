@@ -8,7 +8,7 @@ class App:
   def __init__(self):
     self.app = Flask(__name__)
     CORS(self.app)
-    self.app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@localhost/bar'
+    self.app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Brunocorrea123@localhost/bar'
     db.init_app(self.app)
     default_routes(self.app)
 
